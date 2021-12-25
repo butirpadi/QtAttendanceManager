@@ -47,6 +47,37 @@ class Main(QMainWindow):
             self.ui.tbPassword.setText(str(dbsetting[4]))
         
         # open machine data
+        # cur = conn.cursor()
+        # cur.execute("SELECT id,name,address,port,machine_id from zkmachine")
+        # machineRows = cur.fetchall()
+        # print('Get Data Machine')
+        # print('------------------------------')
+        # # pprint(machineRows)
+        # cur.close()
+        
+        # if machineRows:
+        #     rowidx = 0            
+        #     self.ui.machineTable.setRowCount(len(machineRows))
+            
+        #     for machine in machineRows:
+        #         self.ui.machineTable.setItem(rowidx,0,QtWidgets.QTableWidgetItem(str(machine[1])))
+        #         self.ui.machineTable.setItem(rowidx,1,QtWidgets.QTableWidgetItem(str(machine[2])))
+        #         self.ui.machineTable.setItem(rowidx,2,QtWidgets.QTableWidgetItem(str(machine[3])))
+                
+        #         rowidx+=1
+        
+        self.loadDataToTable(conn)
+
+        conn.close()
+        # ---------------------------------------------
+        
+        # initialize variable
+        # form mode
+        # normal, edit, new
+        self.formMode = 'normal'
+        
+    def loadDataToTable(self,conn):
+        # open machine data
         cur = conn.cursor()
         cur.execute("SELECT id,name,address,port,machine_id from zkmachine")
         machineRows = cur.fetchall()
@@ -54,6 +85,8 @@ class Main(QMainWindow):
         print('------------------------------')
         # pprint(machineRows)
         cur.close()
+        
+        self.ui.machineTable.clear()
         
         if machineRows:
             rowidx = 0            
@@ -66,30 +99,74 @@ class Main(QMainWindow):
                 
                 rowidx+=1
 
-        conn.close()
-        # ---------------------------------------------
-
     def clearInputan(self):
         self.ui.tbMachineAddress.setText("")
         self.ui.tbMachineName.setText("")
         self.ui.tbMachinePort.setText("")
 
     def newMachine(self):
+        self.formMode  = 'new'
+        
         # clear inputan
         self.clearInputan()
         
-        # disable table widget
-        self.ui.machineTable.setEnabled(False)
-        
         # set enable inputan
-        self.ui.gbMachineSetting.setEnabled(True)
+        self.toggleMachineInput(True)
         self.ui.tbMachineName.setFocus()
         
+    def toggleMachineInput(self, val):
+        print('toggle machine')
+        self.ui.gbMachineSetting.setEnabled(val)
+        self.ui.machineTable.setEnabled(not val)
+        
+        self.ui.btnSync.setEnabled(not val)
+        self.ui.btnNew.setEnabled(not val)
+        self.ui.btnEdit.setEnabled(not val)
+        self.ui.btnDelete.setEnabled(not val)
+        
     def editMachine(self):
-        print('edit Machine')
+        if len(self.ui.machineTable.selectedItems()) > 0:
+            self.toggleMachineInput(True)
+            
+            self.formMode = 'edit'
+        else :
+            QMessageBox.warning(self,"Warning","Select machine first.",QMessageBox.Ok)
         
     def deleteMachine(self):
         print('delete Machine')
+    
+    def insertMachine(self):
+        conn = sqlite3.connect("my.sqlite")
+        cur = conn.cursor()
+        
+        query  = "INSERT INTO zkmachine (name,address,port) values (?,?,?)" 
+        
+        cur.execute(query, (self.ui.tbMachineName.text(),self.ui.tbMachineAddress.text(),self.ui.tbMachinePort.text()))
+        conn.commit()
+        
+        cur.close()
+        
+        self.loadDataToTable(conn)
+        
+        conn.close()
+        self.toggleMachineInput(False)
+        
+    
+    def saveMachine(self):
+        print('FORM MODE : ')
+        print(self.formMode)
+        
+        if self.formMode == 'new':
+            self.insertMachine()
+        elif self.formMode == 'edit':
+            print('Edit mode')
+        
+    
+    def cancelMachine(self):
+        print('Cancel Machine')
+        self.toggleMachineInput(False)
+        
+        self.formMode = 'normal'
         
     def syncAttendance(self):
         print('synch Machine')

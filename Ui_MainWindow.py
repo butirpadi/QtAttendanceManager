@@ -85,26 +85,26 @@ class Ui_MainWindow(object):
 
         self.frame_6 = QFrame(self.gbMachineSetting)
         self.frame_6.setObjectName(u"frame_6")
-        self.frame_6.setFrameShape(QFrame.StyledPanel)
+        self.frame_6.setFrameShape(QFrame.NoFrame)
         self.frame_6.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_5 = QHBoxLayout(self.frame_6)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5.setContentsMargins(0, 4, 0, 4)
         self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_5.addItem(self.horizontalSpacer_4)
 
-        self.pushButton = QPushButton(self.frame_6)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(0, 30))
+        self.btnMachineSave = QPushButton(self.frame_6)
+        self.btnMachineSave.setObjectName(u"btnMachineSave")
+        self.btnMachineSave.setMinimumSize(QSize(0, 30))
 
-        self.horizontalLayout_5.addWidget(self.pushButton)
+        self.horizontalLayout_5.addWidget(self.btnMachineSave)
 
-        self.pushButton_2 = QPushButton(self.frame_6)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setMinimumSize(QSize(0, 30))
+        self.btnMachineCancel = QPushButton(self.frame_6)
+        self.btnMachineCancel.setObjectName(u"btnMachineCancel")
+        self.btnMachineCancel.setMinimumSize(QSize(0, 30))
 
-        self.horizontalLayout_5.addWidget(self.pushButton_2)
+        self.horizontalLayout_5.addWidget(self.btnMachineCancel)
 
 
         self.gridLayout_2.addWidget(self.frame_6, 3, 2, 1, 1)
@@ -295,6 +295,8 @@ class Ui_MainWindow(object):
         self.btnNew.clicked.connect(MainWindow.newMachine)
         self.btnDelete.clicked.connect(MainWindow.deleteMachine)
         self.btnSync.clicked.connect(MainWindow.syncAttendance)
+        self.btnMachineSave.clicked.connect(MainWindow.saveMachine)
+        self.btnMachineCancel.clicked.connect(MainWindow.cancelMachine)
 
         self.tabWidget.setCurrentIndex(0)
 
@@ -312,8 +314,8 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Port", None));
         self.gbMachineSetting.setTitle(QCoreApplication.translate("MainWindow", u"Machine Setting", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Port", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.btnMachineSave.setText(QCoreApplication.translate("MainWindow", u"SAVE", None))
+        self.btnMachineCancel.setText(QCoreApplication.translate("MainWindow", u"CANCEL", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Name", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Address", None))
         self.btnSync.setText(QCoreApplication.translate("MainWindow", u"SYNC", None))
