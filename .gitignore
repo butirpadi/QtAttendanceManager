@@ -73,3 +73,8 @@ Thumbs.db
 
 # vscode
 .vscode
+*.vscode
+.vscode/*
+__pycache__
+
+*.sqlite
