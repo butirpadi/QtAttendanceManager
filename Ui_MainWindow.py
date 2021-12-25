@@ -15,16 +15,17 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
-    QHeaderView, QLabel, QLineEdit, QMainWindow,
-    QPushButton, QSizePolicy, QSpacerItem, QTabWidget,
-    QTableView, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QGridLayout,
+    QGroupBox, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
+    QSpacerItem, QTabWidget, QTableWidget, QTableWidgetItem,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(453, 351)
+        MainWindow.resize(453, 477)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -36,10 +37,93 @@ class Ui_MainWindow(object):
         self.tabMachine.setObjectName(u"tabMachine")
         self.verticalLayout_3 = QVBoxLayout(self.tabMachine)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.tableView = QTableView(self.tabMachine)
-        self.tableView.setObjectName(u"tableView")
+        self.machineTable = QTableWidget(self.tabMachine)
+        if (self.machineTable.columnCount() < 3):
+            self.machineTable.setColumnCount(3)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.machineTable.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.machineTable.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.machineTable.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        self.machineTable.setObjectName(u"machineTable")
+        self.machineTable.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.machineTable.setSelectionBehavior(QAbstractItemView.SelectRows)
 
-        self.verticalLayout_3.addWidget(self.tableView)
+        self.verticalLayout_3.addWidget(self.machineTable)
+
+        self.frame_5 = QFrame(self.tabMachine)
+        self.frame_5.setObjectName(u"frame_5")
+        self.frame_5.setFrameShape(QFrame.NoFrame)
+        self.frame_5.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_4 = QHBoxLayout(self.frame_5)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.gbMachineSetting = QGroupBox(self.frame_5)
+        self.gbMachineSetting.setObjectName(u"gbMachineSetting")
+        self.gbMachineSetting.setEnabled(False)
+        self.gridLayout_2 = QGridLayout(self.gbMachineSetting)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.tbMachineName = QLineEdit(self.gbMachineSetting)
+        self.tbMachineName.setObjectName(u"tbMachineName")
+
+        self.gridLayout_2.addWidget(self.tbMachineName, 0, 2, 1, 1)
+
+        self.tbMachineAddress = QLineEdit(self.gbMachineSetting)
+        self.tbMachineAddress.setObjectName(u"tbMachineAddress")
+
+        self.gridLayout_2.addWidget(self.tbMachineAddress, 1, 2, 1, 1)
+
+        self.label_7 = QLabel(self.gbMachineSetting)
+        self.label_7.setObjectName(u"label_7")
+
+        self.gridLayout_2.addWidget(self.label_7, 2, 0, 1, 1)
+
+        self.tbMachinePort = QLineEdit(self.gbMachineSetting)
+        self.tbMachinePort.setObjectName(u"tbMachinePort")
+
+        self.gridLayout_2.addWidget(self.tbMachinePort, 2, 2, 1, 1)
+
+        self.frame_6 = QFrame(self.gbMachineSetting)
+        self.frame_6.setObjectName(u"frame_6")
+        self.frame_6.setFrameShape(QFrame.StyledPanel)
+        self.frame_6.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_5 = QHBoxLayout(self.frame_6)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_4)
+
+        self.pushButton = QPushButton(self.frame_6)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setMinimumSize(QSize(0, 30))
+
+        self.horizontalLayout_5.addWidget(self.pushButton)
+
+        self.pushButton_2 = QPushButton(self.frame_6)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.setMinimumSize(QSize(0, 30))
+
+        self.horizontalLayout_5.addWidget(self.pushButton_2)
+
+
+        self.gridLayout_2.addWidget(self.frame_6, 3, 2, 1, 1)
+
+        self.label_5 = QLabel(self.gbMachineSetting)
+        self.label_5.setObjectName(u"label_5")
+
+        self.gridLayout_2.addWidget(self.label_5, 0, 0, 1, 1)
+
+        self.label_6 = QLabel(self.gbMachineSetting)
+        self.label_6.setObjectName(u"label_6")
+
+        self.gridLayout_2.addWidget(self.label_6, 1, 0, 1, 1)
+
+
+        self.horizontalLayout_4.addWidget(self.gbMachineSetting)
+
+
+        self.verticalLayout_3.addWidget(self.frame_5)
 
         self.frame_4 = QFrame(self.tabMachine)
         self.frame_4.setObjectName(u"frame_4")
@@ -52,29 +136,29 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
-        self.btnClose_5 = QPushButton(self.frame_4)
-        self.btnClose_5.setObjectName(u"btnClose_5")
-        self.btnClose_5.setMinimumSize(QSize(0, 30))
+        self.btnSync = QPushButton(self.frame_4)
+        self.btnSync.setObjectName(u"btnSync")
+        self.btnSync.setMinimumSize(QSize(0, 30))
 
-        self.horizontalLayout_3.addWidget(self.btnClose_5)
+        self.horizontalLayout_3.addWidget(self.btnSync)
 
-        self.btnClose_2 = QPushButton(self.frame_4)
-        self.btnClose_2.setObjectName(u"btnClose_2")
-        self.btnClose_2.setMinimumSize(QSize(0, 30))
+        self.btnNew = QPushButton(self.frame_4)
+        self.btnNew.setObjectName(u"btnNew")
+        self.btnNew.setMinimumSize(QSize(0, 30))
 
-        self.horizontalLayout_3.addWidget(self.btnClose_2)
+        self.horizontalLayout_3.addWidget(self.btnNew)
 
-        self.btnClose_3 = QPushButton(self.frame_4)
-        self.btnClose_3.setObjectName(u"btnClose_3")
-        self.btnClose_3.setMinimumSize(QSize(0, 30))
+        self.btnEdit = QPushButton(self.frame_4)
+        self.btnEdit.setObjectName(u"btnEdit")
+        self.btnEdit.setMinimumSize(QSize(0, 30))
 
-        self.horizontalLayout_3.addWidget(self.btnClose_3)
+        self.horizontalLayout_3.addWidget(self.btnEdit)
 
-        self.btnClose_4 = QPushButton(self.frame_4)
-        self.btnClose_4.setObjectName(u"btnClose_4")
-        self.btnClose_4.setMinimumSize(QSize(0, 30))
+        self.btnDelete = QPushButton(self.frame_4)
+        self.btnDelete.setObjectName(u"btnDelete")
+        self.btnDelete.setMinimumSize(QSize(0, 30))
 
-        self.horizontalLayout_3.addWidget(self.btnClose_4)
+        self.horizontalLayout_3.addWidget(self.btnDelete)
 
 
         self.verticalLayout_3.addWidget(self.frame_4)
@@ -96,15 +180,15 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
 
-        self.lineEdit_4 = QLineEdit(self.frame)
-        self.lineEdit_4.setObjectName(u"lineEdit_4")
+        self.tbDatabase = QLineEdit(self.frame)
+        self.tbDatabase.setObjectName(u"tbDatabase")
 
-        self.gridLayout.addWidget(self.lineEdit_4, 1, 2, 1, 1)
+        self.gridLayout.addWidget(self.tbDatabase, 1, 2, 1, 1)
 
-        self.lineEdit_3 = QLineEdit(self.frame)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
+        self.tbPassword = QLineEdit(self.frame)
+        self.tbPassword.setObjectName(u"tbPassword")
 
-        self.gridLayout.addWidget(self.lineEdit_3, 3, 2, 1, 1)
+        self.gridLayout.addWidget(self.tbPassword, 3, 2, 1, 1)
 
         self.label = QLabel(self.frame)
         self.label.setObjectName(u"label")
@@ -116,15 +200,15 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_4, 1, 0, 1, 1)
 
-        self.lineEdit_2 = QLineEdit(self.frame)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.tbUsername = QLineEdit(self.frame)
+        self.tbUsername.setObjectName(u"tbUsername")
 
-        self.gridLayout.addWidget(self.lineEdit_2, 2, 2, 1, 1)
+        self.gridLayout.addWidget(self.tbUsername, 2, 2, 1, 1)
 
-        self.lineEdit = QLineEdit(self.frame)
-        self.lineEdit.setObjectName(u"lineEdit")
+        self.tbServer = QLineEdit(self.frame)
+        self.tbServer.setObjectName(u"tbServer")
 
-        self.gridLayout.addWidget(self.lineEdit, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.tbServer, 0, 2, 1, 1)
 
         self.label_3 = QLabel(self.frame)
         self.label_3.setObjectName(u"label_3")
@@ -190,9 +274,27 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.frame_3)
 
         MainWindow.setCentralWidget(self.centralwidget)
+        QWidget.setTabOrder(self.tabWidget, self.btnSync)
+        QWidget.setTabOrder(self.btnSync, self.btnNew)
+        QWidget.setTabOrder(self.btnNew, self.btnEdit)
+        QWidget.setTabOrder(self.btnEdit, self.btnDelete)
+        QWidget.setTabOrder(self.btnDelete, self.btnClose)
+        QWidget.setTabOrder(self.btnClose, self.tbServer)
+        QWidget.setTabOrder(self.tbServer, self.tbDatabase)
+        QWidget.setTabOrder(self.tbDatabase, self.tbUsername)
+        QWidget.setTabOrder(self.tbUsername, self.tbPassword)
+        QWidget.setTabOrder(self.tbPassword, self.btnTest)
+        QWidget.setTabOrder(self.btnTest, self.btnSave)
 
         self.retranslateUi(MainWindow)
         self.btnClose.clicked.connect(MainWindow.closeWindow)
+        self.btnSave.clicked.connect(MainWindow.updateSetting)
+        self.btnTest.clicked.connect(MainWindow.testConnection)
+        self.machineTable.itemSelectionChanged.connect(MainWindow.machineSelected)
+        self.btnEdit.clicked.connect(MainWindow.editMachine)
+        self.btnNew.clicked.connect(MainWindow.newMachine)
+        self.btnDelete.clicked.connect(MainWindow.deleteMachine)
+        self.btnSync.clicked.connect(MainWindow.syncAttendance)
 
         self.tabWidget.setCurrentIndex(0)
 
@@ -202,10 +304,22 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Odoo Attendance Manager", None))
-        self.btnClose_5.setText(QCoreApplication.translate("MainWindow", u"SYNC", None))
-        self.btnClose_2.setText(QCoreApplication.translate("MainWindow", u"NEW", None))
-        self.btnClose_3.setText(QCoreApplication.translate("MainWindow", u"EDIT", None))
-        self.btnClose_4.setText(QCoreApplication.translate("MainWindow", u"DELETE", None))
+        ___qtablewidgetitem = self.machineTable.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Name", None));
+        ___qtablewidgetitem1 = self.machineTable.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Address", None));
+        ___qtablewidgetitem2 = self.machineTable.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Port", None));
+        self.gbMachineSetting.setTitle(QCoreApplication.translate("MainWindow", u"Machine Setting", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Port", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Name", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Address", None))
+        self.btnSync.setText(QCoreApplication.translate("MainWindow", u"SYNC", None))
+        self.btnNew.setText(QCoreApplication.translate("MainWindow", u"NEW", None))
+        self.btnEdit.setText(QCoreApplication.translate("MainWindow", u"EDIT", None))
+        self.btnDelete.setText(QCoreApplication.translate("MainWindow", u"DELETE", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabMachine), QCoreApplication.translate("MainWindow", u"Machine", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Username", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Server Address", None))
