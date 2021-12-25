@@ -76,5 +76,8 @@ Thumbs.db
 *.vscode
 .vscode/*
 __pycache__
+**/*.vscode
+launch.json
+setting.json
 
 *.sqlite
