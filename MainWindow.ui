@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>453</width>
-    <height>477</height>
+    <width>538</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,6 +60,11 @@
             <string>Port</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>id</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item>
@@ -80,25 +85,32 @@
               <string>Machine Setting</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_2">
-              <item row="0" column="2">
+              <item row="0" column="2" colspan="2">
                <widget class="QLineEdit" name="tbMachineName">
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
                </widget>
               </item>
-              <item row="1" column="2">
-               <widget class="QLineEdit" name="tbMachineAddress"/>
+              <item row="2" column="2">
+               <widget class="QLineEdit" name="tbMachinePort"/>
               </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_7">
+              <item row="2" column="3">
+               <widget class="QLineEdit" name="tbMachineId"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_6">
                 <property name="text">
-                 <string>Port</string>
+                 <string>Address</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="2">
-               <widget class="QLineEdit" name="tbMachinePort"/>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Name</string>
+                </property>
+               </widget>
               </item>
               <item row="3" column="2">
                <widget class="QFrame" name="frame_6">
@@ -117,6 +129,40 @@
                  </property>
                  <property name="rightMargin">
                   <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>4</number>
+                 </property>
+                </layout>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Port</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2" colspan="2">
+               <widget class="QLineEdit" name="tbMachineAddress"/>
+              </item>
+              <item row="3" column="3">
+               <widget class="QFrame" name="frame_7">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <property name="leftMargin">
+                  <number>4</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>4</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>4</number>
                  </property>
                  <property name="bottomMargin">
                   <number>4</number>
@@ -163,20 +209,6 @@
                 </layout>
                </widget>
               </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>Name</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Address</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </widget>
            </item>
@@ -216,6 +248,19 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnTestMachine">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>TEST CONNECTION</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QPushButton" name="btnSync">
@@ -505,8 +550,8 @@
    <slot>closeWindow()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>442</x>
-     <y>466</y>
+     <x>527</x>
+     <y>493</y>
     </hint>
     <hint type="destinationlabel">
      <x>452</x>
@@ -521,8 +566,8 @@
    <slot>updateSetting()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>413</x>
-     <y>199</y>
+     <x>516</x>
+     <y>211</y>
     </hint>
     <hint type="destinationlabel">
      <x>452</x>
@@ -537,8 +582,8 @@
    <slot>testConnection()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>318</x>
-     <y>201</y>
+     <x>430</x>
+     <y>211</y>
     </hint>
     <hint type="destinationlabel">
      <x>452</x>
@@ -569,8 +614,8 @@
    <slot>editMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>307</x>
-     <y>403</y>
+     <x>435</x>
+     <y>441</y>
     </hint>
     <hint type="destinationlabel">
      <x>451</x>
@@ -585,8 +630,8 @@
    <slot>newMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>226</x>
-     <y>399</y>
+     <x>349</x>
+     <y>441</y>
     </hint>
     <hint type="destinationlabel">
      <x>453</x>
@@ -601,8 +646,8 @@
    <slot>deleteMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>397</y>
+     <x>521</x>
+     <y>441</y>
     </hint>
     <hint type="destinationlabel">
      <x>449</x>
@@ -617,8 +662,8 @@
    <slot>syncAttendance()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>148</x>
-     <y>400</y>
+     <x>263</x>
+     <y>441</y>
     </hint>
     <hint type="destinationlabel">
      <x>450</x>
@@ -633,8 +678,8 @@
    <slot>saveMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>293</x>
-     <y>339</y>
+     <x>414</x>
+     <y>380</y>
     </hint>
     <hint type="destinationlabel">
      <x>1</x>
@@ -649,12 +694,28 @@
    <slot>cancelMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>387</x>
-     <y>338</y>
+     <x>500</x>
+     <y>380</y>
     </hint>
     <hint type="destinationlabel">
      <x>2</x>
      <y>351</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnTestMachine</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>testMachineConnection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>154</x>
+     <y>436</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>407</y>
     </hint>
    </hints>
   </connection>
@@ -670,5 +731,6 @@
   <slot>syncAttendance()</slot>
   <slot>saveMachine()</slot>
   <slot>cancelMachine()</slot>
+  <slot>testMachineConnection()</slot>
  </slots>
 </ui>
