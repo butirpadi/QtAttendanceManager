@@ -37,6 +37,7 @@ class Main(QMainWindow):
         self.ui.machineTable.setColumnHidden(3, True)
         self.ui.tbMachineId.hide()
         # self.ui.machineTable.hide()
+        self.ui.btnTestSync.hide()
 
         # open setting
         # -----------------------------------------------
@@ -450,6 +451,9 @@ if __name__ == "__main__":
     # center screen
     center = QApplication.primaryScreen().geometry().center()
     widget.show()
-    widget.move(center - widget.frameGeometry().center())
+    # widget.move(center - widget.frameGeometry().center())
+    widgetPos = widget.frameGeometry()
+    # widget.move(center)
+    widget.move(center.x() - (widgetPos.width()/2),center.y() - (widgetPos.height()/2) )
 
     sys.exit(app.exec())
