@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'MainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.2.0
+## Created by: Qt User Interface Compiler version 6.2.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(538, 504)
+        MainWindow.resize(538, 548)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -51,6 +51,8 @@ class Ui_MainWindow(object):
         self.machineTable.setObjectName(u"machineTable")
         self.machineTable.setSelectionMode(QAbstractItemView.SingleSelection)
         self.machineTable.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.machineTable.horizontalHeader().setProperty("showSortIndicator", False)
+        self.machineTable.horizontalHeader().setStretchLastSection(True)
 
         self.verticalLayout_3.addWidget(self.machineTable)
 
@@ -98,6 +100,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QHBoxLayout(self.frame_6)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.horizontalLayout_5.setContentsMargins(0, 4, 0, 4)
+        self.btnTestSync = QPushButton(self.frame_6)
+        self.btnTestSync.setObjectName(u"btnTestSync")
+
+        self.horizontalLayout_5.addWidget(self.btnTestSync)
+
 
         self.gridLayout_2.addWidget(self.frame_6, 3, 2, 1, 1)
 
@@ -298,17 +305,25 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.frame_3)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        QWidget.setTabOrder(self.tabWidget, self.btnSync)
-        QWidget.setTabOrder(self.btnSync, self.btnNew)
+        QWidget.setTabOrder(self.tbMachineName, self.tbMachineAddress)
+        QWidget.setTabOrder(self.tbMachineAddress, self.tbMachinePort)
+        QWidget.setTabOrder(self.tbMachinePort, self.btnNew)
         QWidget.setTabOrder(self.btnNew, self.btnEdit)
         QWidget.setTabOrder(self.btnEdit, self.btnDelete)
-        QWidget.setTabOrder(self.btnDelete, self.btnClose)
-        QWidget.setTabOrder(self.btnClose, self.tbServer)
+        QWidget.setTabOrder(self.btnDelete, self.btnTestMachine)
+        QWidget.setTabOrder(self.btnTestMachine, self.btnSync)
+        QWidget.setTabOrder(self.btnSync, self.tbMachineId)
+        QWidget.setTabOrder(self.tbMachineId, self.btnMachineSave)
+        QWidget.setTabOrder(self.btnMachineSave, self.btnMachineCancel)
+        QWidget.setTabOrder(self.btnMachineCancel, self.machineTable)
+        QWidget.setTabOrder(self.machineTable, self.tabWidget)
+        QWidget.setTabOrder(self.tabWidget, self.tbServer)
         QWidget.setTabOrder(self.tbServer, self.tbDatabase)
         QWidget.setTabOrder(self.tbDatabase, self.tbUsername)
         QWidget.setTabOrder(self.tbUsername, self.tbPassword)
         QWidget.setTabOrder(self.tbPassword, self.btnTest)
         QWidget.setTabOrder(self.btnTest, self.btnSave)
+        QWidget.setTabOrder(self.btnSave, self.btnClose)
 
         self.retranslateUi(MainWindow)
         self.btnClose.clicked.connect(MainWindow.closeWindow)
@@ -322,6 +337,7 @@ class Ui_MainWindow(object):
         self.btnMachineSave.clicked.connect(MainWindow.saveMachine)
         self.btnMachineCancel.clicked.connect(MainWindow.cancelMachine)
         self.btnTestMachine.clicked.connect(MainWindow.testMachineConnection)
+        self.btnTestSync.clicked.connect(MainWindow.testSyncAttendance)
 
         self.tabWidget.setCurrentIndex(0)
 
@@ -342,6 +358,7 @@ class Ui_MainWindow(object):
         self.gbMachineSetting.setTitle(QCoreApplication.translate("MainWindow", u"Machine Setting", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Address", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Name", None))
+        self.btnTestSync.setText(QCoreApplication.translate("MainWindow", u"Test Sync", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Port", None))
         self.btnMachineSave.setText(QCoreApplication.translate("MainWindow", u"SAVE", None))
         self.btnMachineCancel.setText(QCoreApplication.translate("MainWindow", u"CANCEL", None))

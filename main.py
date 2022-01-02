@@ -1,23 +1,25 @@
 # This Python file uses the following encoding: utf-8
 import os
-from pathlib import Path
+import threading
 import sys
+import PySide6
+import json
+import sqlite3
+import requests
+import time
+from pathlib import Path
 from typing import final
 from PySide6 import QtWidgets
-import PySide6
-from PySide6 import QtCore
-from PySide6.QtGui import QShowEvent
-
+from PySide6 import QtCore, QtSql
+from PySide6.QtGui import QShowEvent, QStandardItemModel
 from PySide6.QtWidgets import QApplication,  QMainWindow, QMessageBox, QTableWidgetItem
-from PySide6.QtCore import QFile
+from PySide6.QtCore import QCoreApplication, QFile, QSize
 from OdooConnection import OdooConnection
+from ThreadClass import ThreadClass
 from Ui_MainWindow import Ui_MainWindow
-import sqlite3
 from pprint import pprint
-import requests
 from zk import ZK, const
 from myzk import MyZK
-import json
 
 
 class Main(QMainWindow):
@@ -28,10 +30,13 @@ class Main(QMainWindow):
         self.ui.setupUi(self)
         self.database_name = "my.sqlite"
         self.ui.tbMachineName.setEnabled(True)
+        
+        self.thread = {}
 
         # hide table column
         self.ui.machineTable.setColumnHidden(3, True)
         self.ui.tbMachineId.hide()
+        # self.ui.machineTable.hide()
 
         # open setting
         # -----------------------------------------------
@@ -39,9 +44,11 @@ class Main(QMainWindow):
         cur = conn.cursor()
 
         # create table setting
-        cur.execute("CREATE TABLE IF NOT EXISTS[setting] ([id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,[server_url] VARCHAR(1024) NULL,[database] VARCHAR(100) NULL,[username] VARCHAR(100) NULL,[password] VARCHAR(100) NULL)")
+        cur.execute(
+            "CREATE TABLE IF NOT EXISTS[setting] ([id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,[server_url] VARCHAR(1024) NULL,[database] VARCHAR(100) NULL,[username] VARCHAR(100) NULL,[password] VARCHAR(100) NULL)")
         # crewate table machine
-        cur.execute("CREATE TABLE IF NOT EXISTS[zkmachine] ([id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,[name] VARCHAR(100) NULL,[address] VARCHAR(500) NULL,[port] VARCHAR(100) NULL,[machine_id] VARCHAR(100) NULL)")
+        cur.execute(
+            "CREATE TABLE IF NOT EXISTS[zkmachine] ([id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,[name] VARCHAR(100) NULL,[address] VARCHAR(500) NULL,[port] VARCHAR(100) NULL,[machine_id] VARCHAR(100) NULL)")
 
         # open setting to form
         cur.execute("select id,server_url,database,username,password from setting")
@@ -54,6 +61,13 @@ class Main(QMainWindow):
             self.ui.tbDatabase.setText(str(dbsetting[2]))
             self.ui.tbUsername.setText(str(dbsetting[3]))
             self.ui.tbPassword.setText(str(dbsetting[4]))
+        else:
+            # create init setting
+            cur = conn.cursor()
+            query = "insert into setting (server_url,database,username,password) values (?,?,?,?)"
+            cur.execute(query, ("", "", "", ""))
+            conn.commit()
+            cur.close()
 
         # open machine data
         # cur = conn.cursor()
@@ -85,6 +99,22 @@ class Main(QMainWindow):
         # normal, edit, new
         self.formMode = 'normal'
 
+        # QTableView
+        # set machine table header label
+        # model = QStandardItemModel()
+        # model.setHorizontalHeaderLabels(['Name','Address','Port','ID'])
+        # self.ui.tableView.setModel(model)
+
+        # # query table view
+        # sqlModel = QtSql.QSqlQueryModel()
+        # mydb = QtSql.QSqlDatabase("QSQLITE")
+        # mydb.setDatabaseName("my.sqlite")
+        # mydb.open()
+        # query = QtSql.QSqlQuery(mydb)
+        # query.exec("select * from zkmachine")
+        # sqlModel.setQuery(query)
+        # self.ui.tableView.setModel(sqlModel)
+
     def loadDataToTable(self, conn):
         # open machine data
         cur = conn.cursor()
@@ -109,7 +139,7 @@ class Main(QMainWindow):
 
                 rowidx += 1
 
-    def testMachineConnection(self):
+    def _testMachineConnection(self):
         if self.isTableSelected():
             print('Machine test connection ......')
 
@@ -123,13 +153,22 @@ class Main(QMainWindow):
                 conn = zk.connect()
                 conn.disable_device()
                 users = conn.get_users()
-                QMessageBox.information(self, "Connection Successful", "Machine contains " + str(len(users)) + " users")
+                QMessageBox.information(self, "Connection Successful", "Connection successfull. \nMachine contains " + str(len(users)) + " users")
                 conn.enable_device()
                 conn.disconnect()
             except Exception as e:
                 QMessageBox.warning(self, "Machine Connection Error", str(e))
         else:
             QMessageBox.warning(self, "Warning", "Select machine first.", QMessageBox.Ok)
+
+        self.setFormMode('normal')
+        self.thread[0].stop()
+
+    def testMachineConnection(self):
+        self.setFormMode('sync')
+        self.thread[0] = ThreadClass(None,1)
+        self.thread[0].start()
+        self.thread[0].any_signal.connect(self._testMachineConnection)
 
     def clearInputan(self):
         self.ui.tbMachineAddress.setText("")
@@ -151,10 +190,15 @@ class Main(QMainWindow):
         self.ui.gbMachineSetting.setEnabled(val)
         self.ui.machineTable.setEnabled(not val)
 
-        self.ui.btnSync.setEnabled(not val)
-        self.ui.btnNew.setEnabled(not val)
-        self.ui.btnEdit.setEnabled(not val)
-        self.ui.btnDelete.setEnabled(not val)
+        self.toggleMainButton(not val)
+
+    def toggleMainButton(self, val):
+        self.ui.btnSync.setEnabled(val)
+        self.ui.btnNew.setEnabled(val)
+        self.ui.btnEdit.setEnabled(val)
+        self.ui.btnDelete.setEnabled(val)
+        self.ui.btnTestMachine.setEnabled(val)
+        self.ui.btnClose.setEnabled(val)
 
     def isTableSelected(self):
         return (len(self.ui.machineTable.selectedItems()) > 0)
@@ -270,10 +314,31 @@ class Main(QMainWindow):
         except Exception as e:
             QMessageBox.warning(self, "Machine Connection Error", str(e))
 
+    def setFormMode(self, mode='normal'):
+        self.formMode = mode
+
+        if self.formMode == 'normal':
+            self.ui.centralwidget.setEnabled(True)
+            self.ui.machineTable.setEnabled(True)
+            self.ui.gbMachineSetting.setEnabled(False)
+        elif self.formMode == 'sync':
+            self.ui.centralwidget.setEnabled(False)
+
     def syncAttendance(self):
+        self.setFormMode('sync')
+        self.thread[1] = ThreadClass(None,1)
+        self.thread[1].start()
+        self.thread[1].any_signal.connect(self._syncAttendance)
+        # self._syncAttendance(False)
+        # self.setFormMode('normal')
+
+    def testSyncAttendance(self):
+        self._syncAttendance(True)
+
+    def _syncAttendance(self, israw=False):
         if self.isTableSelected():
             print('Sync Machine .....')
-
+            is_success = False
             try:
                 print('Create connection ...')
                 odooCon = OdooConnection(self.ui.tbUsername.text(), self.ui.tbPassword.text(), self.ui.tbDatabase.text(), self.ui.tbServer.text())
@@ -282,7 +347,6 @@ class Main(QMainWindow):
                 if session_id:
                     atts = {}
                     atts = self.getAttendances()
-                    
 
                     postjson = {
                         "jsonrpc": "2.0",
@@ -298,7 +362,7 @@ class Main(QMainWindow):
 
                     headers = {
                         'content-type': "application/json",
-                        'Cookie' : "session_id="+session_id+";"
+                        'Cookie': "session_id="+session_id+";"
                     }
 
                     print('Posting json data to server ......')
@@ -312,18 +376,28 @@ class Main(QMainWindow):
                     # }
                     # pprint(postjson)
                     print('Jumlah attendance : ' + str(len(atts)))
-                    res =  requests.post(self.ui.tbServer.text() + '/sync/attendance', headers=headers, json=postjson)
-                    # res =  requests.post(self.ui.tbServer.text() + '/sync/raw/attendance', headers=headers, json=postjson)
-                    print('post done.')
-                    
+
+                    if israw:
+                        res = requests.post(self.ui.tbServer.text() + '/sync/raw/attendance', headers=headers, json=postjson)
+                    else:
+                        res = requests.post(self.ui.tbServer.text() + '/sync/attendance', headers=headers, json=postjson)
+
+                    is_success = True 
                     
                     return res
 
             except Exception as e:
                 QMessageBox.warning(self, "Connection failed", str(e), QMessageBox.Ok)
+            finally:
+                self.setFormMode('normal')
+                if is_success:
+                    QMessageBox.information(self, "Synchronizing Attendance", "Synchonizing successfull, check attendance data on your server.")
 
         else:
             QMessageBox.warning(self, "Warning", "Select machine first.", QMessageBox.Ok)
+        
+        self.setFormMode('normal')
+        self.thread[1].stop()
 
     def machineSelected(self):
         print('Selected Items : ')
@@ -334,51 +408,18 @@ class Main(QMainWindow):
         self.ui.tbMachineId.setText(str(machine_id))
 
     def testConnection(self):
-        try:
-            odooCon = OdooConnection(self.ui.tbUsername.text(), self.ui.tbPassword.text(), self.ui.tbDatabase.text(), self.ui.tbServer.text())
-            session_id = odooCon.getSessionId()
-            if session_id:
-                QMessageBox.warning(self, "Connection Successful", "Connection successful. \n Your session id : " + session_id, QMessageBox.Ok)
-        except Exception as e:
-            QMessageBox.warning(self, "Connection failed", str(e), QMessageBox.Ok)
 
-        # try:
-        #     odoo_url = str(self.ui.tbServer.text()) + "/web/session/authenticate"
-        #     headers = {
-        #         "Content-type": "application/json",
-        #         "Accept": "application/json"
-        #         }
-        #     data = {
-        #         "jsonrpc": "2.0",
-        #         "method": "call",
-        #         "id": 1,
-        #         "params": {
-        #             "login": self.ui.tbUsername.text(),
-        #             "password": self.ui.tbPassword.text(),
-        #             "db": self.ui.tbDatabase.text(),
-        #             "context": {}
-        #         }
-        #     }
-        #     pprint(data)
-        #     req = requests.post(url=odoo_url, json=data, headers=headers)
-
-        #     print('First Result : ')
-        #     print('---------------------------------------')
-        #     pprint(req.headers)
-        #     print(req.text)
-        #     print('Status Code : ' + str(req.status_code))
-
-        #     res_json = req.json()
-
-        #     if "error" in res_json:
-        #         QMessageBox.warning(self,"Error Connection","Connection Error, please check your credentials.",QMessageBox.Ok)
-        #         return
-
-        #     if req.status_code == 200:
-        #         QMessageBox.information(self, "Connection", "------------ Connection Success ------------", QMessageBox.Ok)
-
-        # except Exception as e:
-        #     QMessageBox.warning(self, "Connection failed", str(e), QMessageBox.Ok)
+        # check input connection
+        if self.ui.tbServer.text().strip() != "" and self.ui.tbUsername.text().strip() != "" and self.ui.tbPassword.text().strip() and self.ui.tbDatabase.text().strip():
+            try:
+                odooCon = OdooConnection(self.ui.tbUsername.text(), self.ui.tbPassword.text(), self.ui.tbDatabase.text(), self.ui.tbServer.text())
+                session_id = odooCon.getSessionId()
+                if session_id:
+                    QMessageBox.warning(self, "Connection Successful", "Connection successful. \n Your session id : " + session_id, QMessageBox.Ok)
+            except Exception as e:
+                QMessageBox.warning(self, "Connection failed", str(e), QMessageBox.Ok)
+        else:
+            QMessageBox.warning(self, "Connection Test", "Fill all input.", QMessageBox.Ok)
 
     def closeWindow(self):
         if QMessageBox.warning(self, "Close", "Are you sure?", QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
@@ -389,10 +430,10 @@ class Main(QMainWindow):
             conn = sqlite3.connect(self.database_name)
             cur = conn.cursor()
             # open setting to form
-            query = """update setting set server_url= ?, database= ?,username= ?,password= ?"""
+            query = "update setting set server_url= ?, database= ?,username= ?,password= ?"
             cur.execute(query, (self.ui.tbServer.text(), self.ui.tbDatabase.text(), self.ui.tbUsername.text(), self.ui.tbPassword.text()))
             conn.commit()
-
+            print('Updating setting ....')
             cur.close()
             conn.close()
         except Exception as e:
