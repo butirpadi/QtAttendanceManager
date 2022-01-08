@@ -68,8 +68,12 @@ Thumbs.db
 
 # Binaries
 # --------
-# *.dll
-# *.exe
+*.dll
+*.exe
+
+# builds
+builds
+builds/*
 
 # vscode
 .vscode
