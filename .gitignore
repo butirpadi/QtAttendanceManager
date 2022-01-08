@@ -86,10 +86,5 @@ __pycache__
 launch.json
 setting.json
 
-# build files
-build
-build/
-build/*
-
 *.sqlite
 >>>>>>> f52987f14adf6637eb14358f0360d98a3c0a2435
