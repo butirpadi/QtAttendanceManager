@@ -88,7 +88,10 @@ setting.json
 
 # build files
 build
+<<<<<<< HEAD
+=======
 build/
+>>>>>>> 266c1118e2badfa22d18a773664661a763fae3f3
 build/*
 
 *.sqlite
