@@ -8,7 +8,7 @@ import sqlite3
 import requests
 import time
 from pathlib import Path
-from typing import final
+# from typing import final
 from PySide6 import QtWidgets
 from PySide6 import QtCore, QtSql
 from PySide6.QtGui import QShowEvent, QStandardItemModel
@@ -30,7 +30,7 @@ class Main(QMainWindow):
         self.ui.setupUi(self)
         self.database_name = "my.sqlite"
         self.ui.tbMachineName.setEnabled(True)
-        
+
         self.thread = {}
 
         # hide table column
@@ -106,15 +106,20 @@ class Main(QMainWindow):
         # model.setHorizontalHeaderLabels(['Name','Address','Port','ID'])
         # self.ui.tableView.setModel(model)
 
-        # # query table view
-        # sqlModel = QtSql.QSqlQueryModel()
-        # mydb = QtSql.QSqlDatabase("QSQLITE")
-        # mydb.setDatabaseName("my.sqlite")
-        # mydb.open()
-        # query = QtSql.QSqlQuery(mydb)
-        # query.exec("select * from zkmachine")
-        # sqlModel.setQuery(query)
-        # self.ui.tableView.setModel(sqlModel)
+        # query table view
+        sqlModel = QtSql.QSqlQueryModel()
+        mydb = QtSql.QSqlDatabase("QSQLITE")
+        mydb.setDatabaseName("my.sqlite")
+        mydb.open()
+        query = QtSql.QSqlQuery(mydb)
+        query.exec("select name as NAME, address as ADDRESS ,port as PORT, id  from zkmachine")
+        sqlModel.setQuery(query)
+        self.ui.tableView.setModel(sqlModel)
+        
+        
+        
+        self.ui.machineTable.hide()
+        
 
     def loadDataToTable(self, conn):
         # open machine data
@@ -139,6 +144,8 @@ class Main(QMainWindow):
                 self.ui.machineTable.setItem(rowidx, 3, QtWidgets.QTableWidgetItem(str(machine[0])))
 
                 rowidx += 1
+        
+        
 
     def _testMachineConnection(self):
         if self.isTableSelected():
@@ -147,7 +154,7 @@ class Main(QMainWindow):
             ip_addr = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 1).text()
             port = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 2).text()
 
-            zk = MyZK(ip_addr, port=int(port))
+            zk = MyZK(ip_addr, port=int(port), timeout=10)
 
             try:
                 print('Machine connecting.....')
@@ -167,7 +174,7 @@ class Main(QMainWindow):
 
     def testMachineConnection(self):
         self.setFormMode('sync')
-        self.thread[0] = ThreadClass(None,1)
+        self.thread[0] = ThreadClass(None, 1)
         self.thread[0].start()
         self.thread[0].any_signal.connect(self._testMachineConnection)
 
@@ -327,7 +334,7 @@ class Main(QMainWindow):
 
     def syncAttendance(self):
         self.setFormMode('sync')
-        self.thread[1] = ThreadClass(None,1)
+        self.thread[1] = ThreadClass(None, 1)
         self.thread[1].start()
         self.thread[1].any_signal.connect(self._syncAttendance)
         # self._syncAttendance(False)
@@ -383,8 +390,8 @@ class Main(QMainWindow):
                     else:
                         res = requests.post(self.ui.tbServer.text() + '/sync/attendance', headers=headers, json=postjson)
 
-                    is_success = True 
-                    
+                    is_success = True
+
                     return res
 
             except Exception as e:
@@ -396,7 +403,7 @@ class Main(QMainWindow):
 
         else:
             QMessageBox.warning(self, "Warning", "Select machine first.", QMessageBox.Ok)
-        
+
         self.setFormMode('normal')
         self.thread[1].stop()
 
@@ -454,6 +461,6 @@ if __name__ == "__main__":
     # widget.move(center - widget.frameGeometry().center())
     widgetPos = widget.frameGeometry()
     # widget.move(center)
-    widget.move(center.x() - (widgetPos.width()/2),center.y() - (widgetPos.height()/2) )
+    widget.move(center.x() - (widgetPos.width()/2), center.y() - (widgetPos.height()/2))
 
     sys.exit(app.exec())

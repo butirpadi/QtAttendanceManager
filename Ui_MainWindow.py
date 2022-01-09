@@ -18,14 +18,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QGridLayout,
     QGroupBox, QHBoxLayout, QHeaderView, QLabel,
     QLineEdit, QMainWindow, QPushButton, QSizePolicy,
-    QSpacerItem, QTabWidget, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+    QSpacerItem, QTabWidget, QTableView, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(538, 548)
+        MainWindow.resize(562, 484)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -38,16 +38,22 @@ class Ui_MainWindow(object):
         self.verticalLayout_3 = QVBoxLayout(self.tabMachine)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.machineTable = QTableWidget(self.tabMachine)
-        if (self.machineTable.columnCount() < 4):
-            self.machineTable.setColumnCount(4)
+        if (self.machineTable.columnCount() < 5):
+            self.machineTable.setColumnCount(5)
         __qtablewidgetitem = QTableWidgetItem()
+        __qtablewidgetitem.setText(u"Name");
         self.machineTable.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
+        __qtablewidgetitem1.setText(u"Address");
         self.machineTable.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         __qtablewidgetitem2 = QTableWidgetItem()
+        __qtablewidgetitem2.setText(u"Port");
         self.machineTable.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         __qtablewidgetitem3 = QTableWidgetItem()
+        __qtablewidgetitem3.setText(u"id");
         self.machineTable.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.machineTable.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         self.machineTable.setObjectName(u"machineTable")
         self.machineTable.setSelectionMode(QAbstractItemView.SingleSelection)
         self.machineTable.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -55,6 +61,12 @@ class Ui_MainWindow(object):
         self.machineTable.horizontalHeader().setStretchLastSection(True)
 
         self.verticalLayout_3.addWidget(self.machineTable)
+
+        self.tableView = QTableView(self.tabMachine)
+        self.tableView.setObjectName(u"tableView")
+        self.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        self.verticalLayout_3.addWidget(self.tableView)
 
         self.frame_5 = QFrame(self.tabMachine)
         self.frame_5.setObjectName(u"frame_5")
@@ -218,6 +230,7 @@ class Ui_MainWindow(object):
 
         self.tbPassword = QLineEdit(self.frame)
         self.tbPassword.setObjectName(u"tbPassword")
+        self.tbPassword.setEchoMode(QLineEdit.Password)
 
         self.gridLayout.addWidget(self.tbPassword, 3, 2, 1, 1)
 
@@ -347,14 +360,6 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Odoo Attendance Manager", None))
-        ___qtablewidgetitem = self.machineTable.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Name", None));
-        ___qtablewidgetitem1 = self.machineTable.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Address", None));
-        ___qtablewidgetitem2 = self.machineTable.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Port", None));
-        ___qtablewidgetitem3 = self.machineTable.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"id", None));
         self.gbMachineSetting.setTitle(QCoreApplication.translate("MainWindow", u"Machine Setting", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Address", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Name", None))
@@ -369,6 +374,7 @@ class Ui_MainWindow(object):
         self.btnDelete.setText(QCoreApplication.translate("MainWindow", u"DELETE", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabMachine), QCoreApplication.translate("MainWindow", u"Machine", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Username", None))
+        self.tbPassword.setInputMask("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"Server Address", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Database", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Password", None))
