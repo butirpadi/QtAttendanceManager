@@ -105,7 +105,14 @@ class Main(QMainWindow):
         # model = QStandardItemModel()
         # model.setHorizontalHeaderLabels(['Name','Address','Port','ID'])
         # self.ui.tableView.setModel(model)
-
+        self.loadTableView()
+        
+        self.ui.tableView.clicked.connect(self._tableViewClicked)
+        # self.ui.tableView.selectionModel().Current.connect(self._tableViewClicked)
+        
+        self.ui.machineTable.hide()
+    
+    def loadTableView(self):
         # query table view
         self.sqlModel = QtSql.QSqlQueryModel()
         mydb = QtSql.QSqlDatabase("QSQLITE")
@@ -125,30 +132,22 @@ class Main(QMainWindow):
         # self.ui.tableView.horizontalHeader().
         # self.ui.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
-        self.ui.tableView.clicked.connect(self._tableViewClicked)
-        # self.ui.tableView.selectionModel().Current.connect(self._tableViewClicked)
-        
-        
-        
-        self.ui.machineTable.hide()
     
     def _tableViewClicked(self):
         selectedIndex = self.ui.tableView.selectionModel().currentIndex()
         selectedData = self.ui.tableView.model()
-        pprint(selectedData.index(selectedIndex.row(),0).data(0))
-        pprint(selectedData.index(selectedIndex.row(),1).data(0))
-        pprint(selectedData.index(selectedIndex.row(),2).data(0))
-        pprint(selectedData.index(selectedIndex.row(),3).data(0))
-        pprint(selectedData.index(selectedIndex.row(),4).data(0))
-        print('----------------------------')
+        # pprint(selectedData.index(selectedIndex.row(),0).data(0))
+        # pprint(selectedData.index(selectedIndex.row(),1).data(0))
+        # pprint(selectedData.index(selectedIndex.row(),2).data(0))
+        # pprint(selectedData.index(selectedIndex.row(),3).data(0))
+        # pprint(selectedData.index(selectedIndex.row(),4).data(0))
+        # print('----------------------------')
         
         self.ui.tbMachineName.setText(selectedData.index(selectedIndex.row(),0).data(0))
         self.ui.tbMachineAddress.setText(selectedData.index(selectedIndex.row(),1).data(0))
         self.ui.tbMachinePort.setText(selectedData.index(selectedIndex.row(),2).data(0))
-        machine_id = int(selectedData.index(selectedIndex.row(),3).data(0))
-        self.ui.tbMachineId.setText(str(machine_id))
-        
-        
+        self.machine_id = int(selectedData.index(selectedIndex.row(),3).data(0))
+        self.ui.tbMachineId.setText(str(self.machine_id))        
 
     def loadDataToTable(self, conn):
         # open machine data
@@ -180,8 +179,15 @@ class Main(QMainWindow):
         if self.isTableSelected():
             print('Machine test connection ......')
 
-            ip_addr = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 1).text()
-            port = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 2).text()
+            # ip_addr = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 1).text()
+            # port = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 2).text()
+            
+            selectedIndex = self.ui.tableView.selectionModel().currentIndex()
+            selectedData = self.ui.tableView.model()
+            
+            
+            ip_addr = selectedData.index(selectedIndex.row(),1).data(0)
+            port = selectedData.index(selectedIndex.row(),2).data(0)
 
             zk = MyZK(ip_addr, port=int(port), timeout=10)
 
@@ -256,7 +262,11 @@ class Main(QMainWindow):
         if self.isTableSelected():
             if QMessageBox.question(self, "Delete Machine", "Are you sure ?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
                 print('Delete machine')
-                machine_id = int(self.ui.machineTable.item(self.ui.machineTable.currentRow(), 3).text())
+                
+                if self.ui.machineTable.isHidden() :
+                    machine_id = self.machine_id
+                else:                    
+                    machine_id = int(self.ui.machineTable.item(self.ui.machineTable.currentRow(), 3).text())
 
                 # delete machine
                 conn = sqlite3.connect(self.database_name)
@@ -272,6 +282,7 @@ class Main(QMainWindow):
 
                 # de select machineTable
                 self.ui.machineTable.selectRow(-1)
+                self.loadTableView()
         else:
             QMessageBox.warning(self, "Warning", "Select machine first.", QMessageBox.Ok)
 
@@ -304,7 +315,8 @@ class Main(QMainWindow):
 
         self.loadDataToTable(conn)
         
-        self.ui.tableView.setModel(self.sqlModel)
+        # reload table view
+        self.loadTableView()
 
         conn.close()
         self.toggleMachineInput(False)
