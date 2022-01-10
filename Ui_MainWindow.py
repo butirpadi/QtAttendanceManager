@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(562, 484)
+        MainWindow.resize(562, 488)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -68,13 +68,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.tableView)
 
-        self.frame_5 = QFrame(self.tabMachine)
-        self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setFrameShape(QFrame.NoFrame)
-        self.frame_5.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_4 = QHBoxLayout(self.frame_5)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.gbMachineSetting = QGroupBox(self.frame_5)
+        self.gbMachineSetting = QGroupBox(self.tabMachine)
         self.gbMachineSetting.setObjectName(u"gbMachineSetting")
         self.gbMachineSetting.setEnabled(False)
         self.gridLayout_2 = QGridLayout(self.gbMachineSetting)
@@ -157,10 +151,7 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.frame_7, 3, 3, 1, 1)
 
 
-        self.horizontalLayout_4.addWidget(self.gbMachineSetting)
-
-
-        self.verticalLayout_3.addWidget(self.frame_5)
+        self.verticalLayout_3.addWidget(self.gbMachineSetting)
 
         self.frame_4 = QFrame(self.tabMachine)
         self.frame_4.setObjectName(u"frame_4")

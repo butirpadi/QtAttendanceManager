@@ -12,7 +12,7 @@ from pathlib import Path
 from PySide6 import QtWidgets
 from PySide6 import QtCore, QtSql
 from PySide6.QtGui import QShowEvent, QStandardItemModel
-from PySide6.QtWidgets import QApplication,  QMainWindow, QMessageBox, QTableWidgetItem
+from PySide6.QtWidgets import QApplication, QHeaderView,  QMainWindow, QMessageBox, QTableWidgetItem
 from PySide6.QtCore import QCoreApplication, QFile, QSize
 from OdooConnection import OdooConnection
 from ThreadClass import ThreadClass
@@ -107,18 +107,47 @@ class Main(QMainWindow):
         # self.ui.tableView.setModel(model)
 
         # query table view
-        sqlModel = QtSql.QSqlQueryModel()
+        self.sqlModel = QtSql.QSqlQueryModel()
         mydb = QtSql.QSqlDatabase("QSQLITE")
         mydb.setDatabaseName("my.sqlite")
         mydb.open()
         query = QtSql.QSqlQuery(mydb)
-        query.exec("select name as NAME, address as ADDRESS ,port as PORT, id  from zkmachine")
-        sqlModel.setQuery(query)
-        self.ui.tableView.setModel(sqlModel)
+        query.exec("select name as NAME, address as ADDRESS ,port as PORT, id, null as ''   from zkmachine")
+        self.sqlModel.setQuery(query)
+        self.ui.tableView.setModel(self.sqlModel)    
+        # hide column id  
+        # self.ui.tableView.setColumnHidden(3,True)
+        self.ui.tableView.hideColumn(3)
+        # stretch column
+        self.ui.tableView.resizeColumnToContents(0)
+        self.ui.tableView.resizeColumnToContents(1)
+        self.ui.tableView.resizeColumnToContents(2)
+        # self.ui.tableView.horizontalHeader().
+        # self.ui.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        
+        self.ui.tableView.clicked.connect(self._tableViewClicked)
+        # self.ui.tableView.selectionModel().Current.connect(self._tableViewClicked)
         
         
         
         self.ui.machineTable.hide()
+    
+    def _tableViewClicked(self):
+        selectedIndex = self.ui.tableView.selectionModel().currentIndex()
+        selectedData = self.ui.tableView.model()
+        pprint(selectedData.index(selectedIndex.row(),0).data(0))
+        pprint(selectedData.index(selectedIndex.row(),1).data(0))
+        pprint(selectedData.index(selectedIndex.row(),2).data(0))
+        pprint(selectedData.index(selectedIndex.row(),3).data(0))
+        pprint(selectedData.index(selectedIndex.row(),4).data(0))
+        print('----------------------------')
+        
+        self.ui.tbMachineName.setText(selectedData.index(selectedIndex.row(),0).data(0))
+        self.ui.tbMachineAddress.setText(selectedData.index(selectedIndex.row(),1).data(0))
+        self.ui.tbMachinePort.setText(selectedData.index(selectedIndex.row(),2).data(0))
+        machine_id = int(selectedData.index(selectedIndex.row(),3).data(0))
+        self.ui.tbMachineId.setText(str(machine_id))
+        
         
 
     def loadDataToTable(self, conn):
@@ -209,7 +238,10 @@ class Main(QMainWindow):
         self.ui.btnClose.setEnabled(val)
 
     def isTableSelected(self):
-        return (len(self.ui.machineTable.selectedItems()) > 0)
+        if self.ui.machineTable.isHidden() :
+            return (len(self.ui.tableView.selectedIndexes()) > 0)
+        else:
+            return (len(self.ui.machineTable.selectedItems()) > 0)
 
     def editMachine(self):
         if self.isTableSelected():
@@ -271,6 +303,8 @@ class Main(QMainWindow):
         cur.close()
 
         self.loadDataToTable(conn)
+        
+        self.ui.tableView.setModel(self.sqlModel)
 
         conn.close()
         self.toggleMachineInput(False)
