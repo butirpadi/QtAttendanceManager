@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(702, 574)
+        MainWindow.resize(643, 574)
         MainWindow.setStyleSheet(u"QPushButton {\n"
 "padding:10px;\n"
 "height:10px;\n"
@@ -161,10 +161,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setSpacing(4)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
-
         self.btnTestMachine = QPushButton(self.frame_4)
         self.btnTestMachine.setObjectName(u"btnTestMachine")
         self.btnTestMachine.setMinimumSize(QSize(72, 30))
@@ -188,6 +184,10 @@ class Ui_MainWindow(object):
         self.btnSync.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_3.addWidget(self.btnSync)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
         self.btnNew = QPushButton(self.frame_4)
         self.btnNew.setObjectName(u"btnNew")
