@@ -1,6 +1,8 @@
 # This Python file uses the following encoding: utf-8
+from concurrent.futures import thread
 import os
 import threading
+import multiprocessing
 import sys
 import PySide6
 import json
@@ -29,7 +31,7 @@ class Main(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.database_name = "my.sqlite"
-        self.ui.tbMachineName.setEnabled(True)
+        # self.ui.tbMachineName.setEnabled(True)
 
         self.thread = {}
 
@@ -37,7 +39,7 @@ class Main(QMainWindow):
         self.ui.machineTable.setColumnHidden(3, True)
         self.ui.tbMachineId.hide()
         # self.ui.machineTable.hide()
-        self.ui.btnTestSync.hide()
+        # self.ui.btnTestSync.hide()
         # self.ui.btnTestSync.setEnabled(True)
 
         # open setting
@@ -107,12 +109,12 @@ class Main(QMainWindow):
         # model.setHorizontalHeaderLabels(['Name','Address','Port','ID'])
         # self.ui.tableView.setModel(model)
         self.loadTableView()
-        
+
         self.ui.tableView.clicked.connect(self._tableViewClicked)
         # self.ui.tableView.selectionModel().Current.connect(self._tableViewClicked)
-        
+
         self.ui.machineTable.hide()
-    
+
     def loadTableView(self):
         # query table view
         self.sqlModel = QtSql.QSqlQueryModel()
@@ -122,8 +124,8 @@ class Main(QMainWindow):
         query = QtSql.QSqlQuery(mydb)
         query.exec("select name as NAME, address as ADDRESS ,port as PORT, id, null as ''   from zkmachine")
         self.sqlModel.setQuery(query)
-        self.ui.tableView.setModel(self.sqlModel)    
-        # hide column id  
+        self.ui.tableView.setModel(self.sqlModel)
+        # hide column id
         # self.ui.tableView.setColumnHidden(3,True)
         self.ui.tableView.hideColumn(3)
         # stretch column
@@ -132,8 +134,7 @@ class Main(QMainWindow):
         self.ui.tableView.resizeColumnToContents(2)
         # self.ui.tableView.horizontalHeader().
         # self.ui.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        
-    
+
     def _tableViewClicked(self):
         selectedIndex = self.ui.tableView.selectionModel().currentIndex()
         selectedData = self.ui.tableView.model()
@@ -143,12 +144,12 @@ class Main(QMainWindow):
         # pprint(selectedData.index(selectedIndex.row(),3).data(0))
         # pprint(selectedData.index(selectedIndex.row(),4).data(0))
         # print('----------------------------')
-        
-        self.ui.tbMachineName.setText(selectedData.index(selectedIndex.row(),0).data(0))
-        self.ui.tbMachineAddress.setText(selectedData.index(selectedIndex.row(),1).data(0))
-        self.ui.tbMachinePort.setText(selectedData.index(selectedIndex.row(),2).data(0))
-        self.machine_id = int(selectedData.index(selectedIndex.row(),3).data(0))
-        self.ui.tbMachineId.setText(str(self.machine_id))        
+
+        self.ui.tbMachineName.setText(selectedData.index(selectedIndex.row(), 0).data(0))
+        self.ui.tbMachineAddress.setText(selectedData.index(selectedIndex.row(), 1).data(0))
+        self.ui.tbMachinePort.setText(selectedData.index(selectedIndex.row(), 2).data(0))
+        self.machine_id = int(selectedData.index(selectedIndex.row(), 3).data(0))
+        self.ui.tbMachineId.setText(str(self.machine_id))
 
     def loadDataToTable(self, conn):
         # open machine data
@@ -172,46 +173,59 @@ class Main(QMainWindow):
                 self.ui.machineTable.setItem(rowidx, 2, QtWidgets.QTableWidgetItem(str(machine[3])))
                 self.ui.machineTable.setItem(rowidx, 3, QtWidgets.QTableWidgetItem(str(machine[0])))
 
-                rowidx += 1       
-        
+                rowidx += 1
+                
+    def showProgress(self):
+        self.ui.centralwidget.parent().setWindowTitle(".")
+        while True:
+            time.sleep(1)
+            
+            titik = self.ui.centralwidget.parent().windowTitle()
+            self.ui.centralwidget.parent().setWindowTitle(titik + ".")
+            
+            if len(titik) >= 3:
+                print('Titik mencapai lima')
+                self.ui.centralwidget.parent().setWindowTitle(".")
+                
 
-    def _testMachineConnection(self):
+    def testMachineConnection(self):
         if self.isTableSelected():
-            print('Machine test connection ......')
-
-            # ip_addr = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 1).text()
-            # port = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 2).text()
+            self.setFormMode('sync')
             
-            selectedIndex = self.ui.tableView.selectionModel().currentIndex()
-            selectedData = self.ui.tableView.model()
-            
-            
-            ip_addr = selectedData.index(selectedIndex.row(),1).data(0)
-            port = selectedData.index(selectedIndex.row(),2).data(0)
-
-            zk = MyZK(ip_addr, port=int(port), timeout=10)
-
-            try:
-                print('Machine connecting.....')
-                conn = zk.connect()
-                conn.disable_device()
-                users = conn.get_users()
-                QMessageBox.information(self, "Connection Successful", "Connection successfull. \nMachine contains " + str(len(users)) + " users")
-                conn.enable_device()
-                conn.disconnect()
-            except Exception as e:
-                QMessageBox.warning(self, "Machine Connection Error", str(e))
+            self.thread[99] = ThreadClass(self, 99)
+            self.thread[99].any_signal.connect(self._testMachineConnection)
+            self.thread[99].start()
+                
         else:
             QMessageBox.warning(self, "Warning", "Select machine first.", QMessageBox.Ok)
 
-        self.setFormMode('normal')
-        self.thread[0].stop()
+    def _testMachineConnection(self):
+        print('Machine test connection ......')
 
-    def testMachineConnection(self):
-        self.setFormMode('sync')
-        self.thread[0] = ThreadClass(None, 1)
-        self.thread[0].start()
-        self.thread[0].any_signal.connect(self._testMachineConnection)
+        # ip_addr = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 1).text()
+        # port = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 2).text()
+
+        selectedIndex = self.ui.tableView.selectionModel().currentIndex()
+        selectedData = self.ui.tableView.model()
+
+        ip_addr = selectedData.index(selectedIndex.row(), 1).data(0)
+        port = selectedData.index(selectedIndex.row(), 2).data(0)
+
+        zk = MyZK(ip_addr, port=int(port), timeout=10)
+
+        try:
+            print('Machine connecting.....')
+            conn = zk.connect()
+            conn.disable_device()
+            users = conn.get_users()
+            QMessageBox.information(self, "Connection Successful", "Connection successfull. \nMachine contains " + str(len(users)) + " users")
+            conn.enable_device()
+            conn.disconnect()
+        except Exception as e:
+            QMessageBox.warning(self, "Machine Connection Error", str(e))
+
+        self.setFormMode('normal')
+        self.thread[99].stop()
 
     def clearInputan(self):
         self.ui.tbMachineAddress.setText("")
@@ -230,6 +244,7 @@ class Main(QMainWindow):
 
     def toggleMachineInput(self, val):
         print('toggle machine')
+        self.ui.tbMachineName.setEnabled(True)
         self.ui.gbMachineSetting.setEnabled(val)
         self.ui.machineTable.setEnabled(not val)
 
@@ -244,7 +259,7 @@ class Main(QMainWindow):
         self.ui.btnClose.setEnabled(val)
 
     def isTableSelected(self):
-        if self.ui.machineTable.isHidden() :
+        if self.ui.machineTable.isHidden():
             return (len(self.ui.tableView.selectedIndexes()) > 0)
         else:
             return (len(self.ui.machineTable.selectedItems()) > 0)
@@ -262,10 +277,10 @@ class Main(QMainWindow):
         if self.isTableSelected():
             if QMessageBox.question(self, "Delete Machine", "Are you sure ?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
                 print('Delete machine')
-                
-                if self.ui.machineTable.isHidden() :
+
+                if self.ui.machineTable.isHidden():
                     machine_id = self.machine_id
-                else:                    
+                else:
                     machine_id = int(self.ui.machineTable.item(self.ui.machineTable.currentRow(), 3).text())
 
                 # delete machine
@@ -316,7 +331,7 @@ class Main(QMainWindow):
 
         self.loadDataToTable(conn)
         self.loadTableView()
-        
+
         # reload table view
         self.loadTableView()
 
@@ -341,7 +356,7 @@ class Main(QMainWindow):
     def getAttendances(self):
         # ip_addr = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 1).text()
         # port = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 2).text()
-        
+
         ip_addr = self.ui.tbMachineAddress.text()
         port = self.ui.tbMachinePort.text()
 
@@ -359,7 +374,7 @@ class Main(QMainWindow):
             #     pprint(attendances)
             # else :
             #     print('Empty attendance')
-            
+
             print('get attendance in json')
             att_json = conn.get_attendance_json()
             # if att_json:
@@ -388,15 +403,21 @@ class Main(QMainWindow):
         print('=======================================')
         print('       TEST GET ATTENDANCE')
         print('=======================================')
+        self.thread[98] = ThreadClass(self, 98)
+        self.thread[98].any_signal.connect(self._testAttendance)
+        self.thread[98].start()
+    
+    def _testAttendance(self):
         atts = self.getAttendances()
         pprint(atts)
-    
+        self.thread[98].stop()
+
     def syncRawAttendance(self):
         self.setFormMode('sync')
         self.thread[1] = ThreadClass(None, 1)
         self.thread[1].any_signal.connect(self._syncRawAttendance)
         self.thread[1].start()
-        
+
     def _syncRawAttendance(self):
         if self.isTableSelected():
             print('Sync Raw Data .....')
@@ -411,7 +432,7 @@ class Main(QMainWindow):
                     print('Get Data Attendance')
                     atts = self.getAttendances()
                     print('Jumlah data attendance : ' + str(len(atts)))
-                    # pprint(atts)                   
+                    # pprint(atts)
 
                     print('Posting Attendance to Server')
                     postjson = {
@@ -462,7 +483,7 @@ class Main(QMainWindow):
         self.thread[2].start()
         # self._syncAttendance(False)
         # self.setFormMode('normal')
-    
+
     def _syncAttendance(self):
         if self.isTableSelected():
             print('Sync Machine .....')
@@ -478,7 +499,6 @@ class Main(QMainWindow):
                     atts = self.getAttendances()
                     print('Attendance Data : ' + str(len(atts)))
                     # pprint(atts)
-                    
 
                     print('Prepare send attendance data to Server ...')
                     postjson = {
@@ -543,7 +563,6 @@ class Main(QMainWindow):
         self.ui.tbMachineId.setText(str(machine_id))
 
     def testConnection(self):
-
         # check input connection
         if self.ui.tbServer.text().strip() != "" and self.ui.tbUsername.text().strip() != "" and self.ui.tbPassword.text().strip() and self.ui.tbDatabase.text().strip():
             try:
@@ -590,4 +609,5 @@ if __name__ == "__main__":
     # widget.move(center)
     widget.move(center.x() - (widgetPos.width()/2), center.y() - (widgetPos.height()/2))
 
+    # app.exec()
     sys.exit(app.exec())

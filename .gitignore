@@ -77,6 +77,16 @@ builds/*
 build
 builds/*
 
+# qt for python
+.qt_for_python
+.qt_for_python/*
+.qt_for_python/rcc
+.qt_for_python/rcc/*
+.qt_for_python/lupdate
+.qt_for_python/lupdate/*
+.qt_for_python/uic
+.qt_for_python/uic/*
+
 # vscode
 .vscode
 *.vscode
