@@ -25,7 +25,12 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(590, 539)
+        MainWindow.resize(702, 574)
+        MainWindow.setStyleSheet(u"QPushButton {\n"
+"padding:10px;\n"
+"height:10px;\n"
+"min-width:50px;\n"
+"}")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -132,13 +137,13 @@ class Ui_MainWindow(object):
 
         self.btnMachineSave = QPushButton(self.frame_7)
         self.btnMachineSave.setObjectName(u"btnMachineSave")
-        self.btnMachineSave.setMinimumSize(QSize(0, 30))
+        self.btnMachineSave.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_6.addWidget(self.btnMachineSave)
 
         self.btnMachineCancel = QPushButton(self.frame_7)
         self.btnMachineCancel.setObjectName(u"btnMachineCancel")
-        self.btnMachineCancel.setMinimumSize(QSize(0, 30))
+        self.btnMachineCancel.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_6.addWidget(self.btnMachineCancel)
 
@@ -153,46 +158,52 @@ class Ui_MainWindow(object):
         self.frame_4.setFrameShape(QFrame.NoFrame)
         self.frame_4.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.frame_4)
+        self.horizontalLayout_3.setSpacing(4)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.btnTestSync = QPushButton(self.frame_4)
-        self.btnTestSync.setObjectName(u"btnTestSync")
-        self.btnTestSync.setEnabled(True)
-        self.btnTestSync.setMinimumSize(QSize(0, 30))
-
-        self.horizontalLayout_3.addWidget(self.btnTestSync)
-
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
         self.btnTestMachine = QPushButton(self.frame_4)
         self.btnTestMachine.setObjectName(u"btnTestMachine")
-        self.btnTestMachine.setMinimumSize(QSize(0, 30))
+        self.btnTestMachine.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_3.addWidget(self.btnTestMachine)
 
+        self.btnTestSync = QPushButton(self.frame_4)
+        self.btnTestSync.setObjectName(u"btnTestSync")
+        self.btnTestSync.setEnabled(True)
+        self.btnTestSync.setMinimumSize(QSize(72, 30))
+
+        self.horizontalLayout_3.addWidget(self.btnTestSync)
+
+        self.btnRawSync = QPushButton(self.frame_4)
+        self.btnRawSync.setObjectName(u"btnRawSync")
+
+        self.horizontalLayout_3.addWidget(self.btnRawSync)
+
         self.btnSync = QPushButton(self.frame_4)
         self.btnSync.setObjectName(u"btnSync")
-        self.btnSync.setMinimumSize(QSize(0, 30))
+        self.btnSync.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_3.addWidget(self.btnSync)
 
         self.btnNew = QPushButton(self.frame_4)
         self.btnNew.setObjectName(u"btnNew")
-        self.btnNew.setMinimumSize(QSize(0, 30))
+        self.btnNew.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_3.addWidget(self.btnNew)
 
         self.btnEdit = QPushButton(self.frame_4)
         self.btnEdit.setObjectName(u"btnEdit")
-        self.btnEdit.setMinimumSize(QSize(0, 30))
+        self.btnEdit.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_3.addWidget(self.btnEdit)
 
         self.btnDelete = QPushButton(self.frame_4)
         self.btnDelete.setObjectName(u"btnDelete")
-        self.btnDelete.setMinimumSize(QSize(0, 30))
+        self.btnDelete.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_3.addWidget(self.btnDelete)
 
@@ -269,13 +280,13 @@ class Ui_MainWindow(object):
 
         self.btnTest = QPushButton(self.frame_2)
         self.btnTest.setObjectName(u"btnTest")
-        self.btnTest.setMinimumSize(QSize(0, 30))
+        self.btnTest.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout.addWidget(self.btnTest)
 
         self.btnSave = QPushButton(self.frame_2)
         self.btnSave.setObjectName(u"btnSave")
-        self.btnSave.setMinimumSize(QSize(0, 30))
+        self.btnSave.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout.addWidget(self.btnSave)
 
@@ -303,7 +314,7 @@ class Ui_MainWindow(object):
 
         self.btnClose = QPushButton(self.frame_3)
         self.btnClose.setObjectName(u"btnClose")
-        self.btnClose.setMinimumSize(QSize(0, 30))
+        self.btnClose.setMinimumSize(QSize(72, 30))
 
         self.horizontalLayout_2.addWidget(self.btnClose)
 
@@ -343,7 +354,8 @@ class Ui_MainWindow(object):
         self.btnMachineSave.clicked.connect(MainWindow.saveMachine)
         self.btnMachineCancel.clicked.connect(MainWindow.cancelMachine)
         self.btnTestMachine.clicked.connect(MainWindow.testMachineConnection)
-        self.btnTestSync.clicked.connect(MainWindow.testSyncAttendance)
+        self.btnTestSync.clicked.connect(MainWindow.testAttendance)
+        self.btnRawSync.clicked.connect(MainWindow.syncRawAttendance)
 
         self.tabWidget.setCurrentIndex(0)
 
@@ -359,8 +371,9 @@ class Ui_MainWindow(object):
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Port", None))
         self.btnMachineSave.setText(QCoreApplication.translate("MainWindow", u"SAVE", None))
         self.btnMachineCancel.setText(QCoreApplication.translate("MainWindow", u"CANCEL", None))
-        self.btnTestSync.setText(QCoreApplication.translate("MainWindow", u"Test Sync", None))
         self.btnTestMachine.setText(QCoreApplication.translate("MainWindow", u"TEST CONNECTION", None))
+        self.btnTestSync.setText(QCoreApplication.translate("MainWindow", u"TEST ATTENDANCE", None))
+        self.btnRawSync.setText(QCoreApplication.translate("MainWindow", u"RAW SYNC", None))
         self.btnSync.setText(QCoreApplication.translate("MainWindow", u"SYNC", None))
         self.btnNew.setText(QCoreApplication.translate("MainWindow", u"NEW", None))
         self.btnEdit.setText(QCoreApplication.translate("MainWindow", u"EDIT", None))

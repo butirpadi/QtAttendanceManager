@@ -37,8 +37,8 @@ class Main(QMainWindow):
         self.ui.machineTable.setColumnHidden(3, True)
         self.ui.tbMachineId.hide()
         # self.ui.machineTable.hide()
-        # self.ui.btnTestSync.hide()
-        self.ui.btnTestSync.setEnabled(True)
+        self.ui.btnTestSync.hide()
+        # self.ui.btnTestSync.setEnabled(True)
 
         # open setting
         # -----------------------------------------------
@@ -384,20 +384,22 @@ class Main(QMainWindow):
         elif self.formMode == 'sync':
             self.ui.centralwidget.setEnabled(False)
 
-    def syncAttendance(self):
+    def testAttendance(self):
+        print('=======================================')
+        print('       TEST GET ATTENDANCE')
+        print('=======================================')
+        atts = self.getAttendances()
+        pprint(atts)
+    
+    def syncRawAttendance(self):
         self.setFormMode('sync')
         self.thread[1] = ThreadClass(None, 1)
+        self.thread[1].any_signal.connect(self._syncRawAttendance)
         self.thread[1].start()
-        self.thread[1].any_signal.connect(self._syncAttendance)
-        # self._syncAttendance(False)
-        # self.setFormMode('normal')
-
-    def testSyncAttendance(self):
-        self._syncAttendance(True)
-
-    def _syncAttendance(self, israw=False):
+        
+    def _syncRawAttendance(self):
         if self.isTableSelected():
-            print('Sync Machine .....')
+            print('Sync Raw Data .....')
             is_success = False
             try:
                 print('Create connection ...')
@@ -408,47 +410,34 @@ class Main(QMainWindow):
                     atts = {}
                     print('Get Data Attendance')
                     atts = self.getAttendances()
-                    # pprint(atts)
-                    
+                    print('Jumlah data attendance : ' + str(len(atts)))
+                    # pprint(atts)                   
 
                     print('Posting Attendance to Server')
-                    # postjson = {
-                    #     "jsonrpc": "2.0",
-                    #     "method": "call",
-                    #     "params": {
-                    #         "attendance": json.dumps(atts, default=str)
-                    #     },
-                    #     "id": None
-                    # }
+                    postjson = {
+                        "jsonrpc": "2.0",
+                        "method": "call",
+                        "params": {
+                            "attendance": json.dumps(atts, default=str)
+                        },
+                        "id": None
+                    }
 
                     # print('-----------------------------')
-                    # # pprint(postjson)
+                    # pprint(postjson)
 
-                    # headers = {
-                    #     'content-type': "application/json",
-                    #     'Cookie': "session_id="+session_id+";"
-                    # }
+                    headers = {
+                        'content-type': "application/json",
+                        'Cookie': "session_id="+session_id+";"
+                    }
 
-                    # print('Posting json data to server ......')
-                    # # postjson = {
-                    # #     "jsonrpc": "2.0",
-                    # #     "method": "call",
-                    # #     "params": {
-                    # #         "attendance": []
-                    # #     },
-                    # #     "id": None
-                    # # }
-                    # # pprint(postjson)
-                    # print('Jumlah attendance : ' + str(len(atts)))
-
-                    # # if israw:
-                    # #     res = requests.post(self.ui.tbServer.text() + '/sync/raw/attendance', headers=headers, json=postjson)
-                    # # else:
-                    # #     res = requests.post(self.ui.tbServer.text() + '/sync/attendance', headers=headers, json=postjson)
+                    print('Posting raw data to server ......')
+                    res = requests.post(self.ui.tbServer.text() + '/sync/raw/attendance', headers=headers, json=postjson)
+                    print('Send data successfull......')
 
                     is_success = True
 
-                    # return res
+                    return res
 
             except Exception as e:
                 QMessageBox.warning(self, "Connection failed", str(e), QMessageBox.Ok)
@@ -461,7 +450,89 @@ class Main(QMainWindow):
             QMessageBox.warning(self, "Warning", "Select machine first.", QMessageBox.Ok)
 
         self.setFormMode('normal')
-        # self.thread[1].stop()
+        self.thread[1].stop()
+
+    def testSyncAttendance(self):
+        self._syncAttendance(True)
+
+    def syncAttendance(self):
+        self.setFormMode('sync')
+        self.thread[2] = ThreadClass(None, 1)
+        self.thread[2].any_signal.connect(self._syncAttendance)
+        self.thread[2].start()
+        # self._syncAttendance(False)
+        # self.setFormMode('normal')
+    
+    def _syncAttendance(self):
+        if self.isTableSelected():
+            print('Sync Machine .....')
+            is_success = False
+            try:
+                print('Create connection ...')
+                odooCon = OdooConnection(self.ui.tbUsername.text(), self.ui.tbPassword.text(), self.ui.tbDatabase.text(), self.ui.tbServer.text())
+                session_id = odooCon.getSessionId()
+                print('Session id : ' + session_id)
+                if session_id:
+                    atts = {}
+                    print('Get Data Attendance')
+                    atts = self.getAttendances()
+                    print('Attendance Data : ' + str(len(atts)))
+                    # pprint(atts)
+                    
+
+                    print('Prepare send attendance data to Server ...')
+                    postjson = {
+                        "jsonrpc": "2.0",
+                        "method": "call",
+                        "params": {
+                            "attendance": json.dumps(atts, default=str)
+                        },
+                        "id": None
+                    }
+
+                    # print('-----------------------------')
+                    # pprint(postjson)
+
+                    headers = {
+                        'content-type': "application/json",
+                        'Cookie': "session_id="+session_id+";"
+                    }
+
+                    # print('Posting json data to server ......')
+                    # postjson = {
+                    #     "jsonrpc": "2.0",
+                    #     "method": "call",
+                    #     "params": {
+                    #         "attendance": []
+                    #     },
+                    #     "id": None
+                    # }
+                    # pprint(postjson)
+                    # print('Jumlah attendance : ' + str(len(atts)))
+
+                    # if israw:
+                    #     res = requests.post(self.ui.tbServer.text() + '/sync/raw/attendance', headers=headers, json=postjson)
+                    # else:
+                    print('Send data to server ....')
+                    res = requests.post(self.ui.tbServer.text() + '/sync/attendance', headers=headers, json=postjson)
+                    print('Send data succesfull....')
+
+                    is_success = True
+
+                    return res
+
+            except Exception as e:
+                QMessageBox.warning(self, "Connection failed", str(e), QMessageBox.Ok)
+            finally:
+                self.setFormMode('normal')
+                if is_success:
+                    QMessageBox.information(self, "Synchronizing Attendance", "Synchonizing successfull, check attendance data on your server.")
+
+        else:
+            QMessageBox.warning(self, "Warning", "Select machine first.", QMessageBox.Ok)
+
+        self.setFormMode('normal')
+        self.thread[2].stop()
 
     def machineSelected(self):
         print('Selected Items : ')

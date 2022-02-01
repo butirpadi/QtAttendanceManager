@@ -6,12 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
-    <height>539</height>
+    <width>702</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Odoo Attendance Manager</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {
+padding:10px;
+height:10px;
+min-width:50px;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -193,7 +200,7 @@
                <widget class="QPushButton" name="btnMachineSave">
                 <property name="minimumSize">
                  <size>
-                  <width>0</width>
+                  <width>72</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -206,7 +213,7 @@
                <widget class="QPushButton" name="btnMachineCancel">
                 <property name="minimumSize">
                  <size>
-                  <width>0</width>
+                  <width>72</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -230,6 +237,9 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="spacing">
+            <number>4</number>
+           </property>
            <property name="leftMargin">
             <number>0</number>
            </property>
@@ -242,22 +252,6 @@
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <item>
-            <widget class="QPushButton" name="btnTestSync">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Test Sync</string>
-             </property>
-            </widget>
-           </item>
            <item>
             <spacer name="horizontalSpacer_3">
              <property name="orientation">
@@ -275,7 +269,7 @@
             <widget class="QPushButton" name="btnTestMachine">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>72</width>
                <height>30</height>
               </size>
              </property>
@@ -285,10 +279,33 @@
             </widget>
            </item>
            <item>
+            <widget class="QPushButton" name="btnTestSync">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>72</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>TEST ATTENDANCE</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnRawSync">
+             <property name="text">
+              <string>RAW SYNC</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="btnSync">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>72</width>
                <height>30</height>
               </size>
              </property>
@@ -301,7 +318,7 @@
             <widget class="QPushButton" name="btnNew">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>72</width>
                <height>30</height>
               </size>
              </property>
@@ -314,7 +331,7 @@
             <widget class="QPushButton" name="btnEdit">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>72</width>
                <height>30</height>
               </size>
              </property>
@@ -327,7 +344,7 @@
             <widget class="QPushButton" name="btnDelete">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>72</width>
                <height>30</height>
               </size>
              </property>
@@ -461,7 +478,7 @@
             <widget class="QPushButton" name="btnTest">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>72</width>
                <height>30</height>
               </size>
              </property>
@@ -474,7 +491,7 @@
             <widget class="QPushButton" name="btnSave">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>72</width>
                <height>30</height>
               </size>
              </property>
@@ -541,7 +558,7 @@
         <widget class="QPushButton" name="btnClose">
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>72</width>
            <height>30</height>
           </size>
          </property>
@@ -587,8 +604,8 @@
    <slot>closeWindow()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>551</x>
-     <y>477</y>
+     <x>691</x>
+     <y>563</y>
     </hint>
     <hint type="destinationlabel">
      <x>452</x>
@@ -603,8 +620,8 @@
    <slot>updateSetting()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>538</x>
-     <y>195</y>
+     <x>115</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>452</x>
@@ -619,8 +636,8 @@
    <slot>testConnection()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>457</x>
-     <y>195</y>
+     <x>115</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>452</x>
@@ -651,8 +668,8 @@
    <slot>editMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>462</x>
-     <y>423</y>
+     <x>607</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>451</x>
@@ -667,8 +684,8 @@
    <slot>newMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>381</x>
-     <y>423</y>
+     <x>531</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>453</x>
@@ -683,8 +700,8 @@
    <slot>deleteMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>543</x>
-     <y>423</y>
+     <x>683</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>449</x>
@@ -699,8 +716,8 @@
    <slot>syncAttendance()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>300</x>
-     <y>423</y>
+     <x>455</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>450</x>
@@ -715,8 +732,8 @@
    <slot>saveMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>448</x>
-     <y>373</y>
+     <x>591</x>
+     <y>457</y>
     </hint>
     <hint type="destinationlabel">
      <x>1</x>
@@ -731,8 +748,8 @@
    <slot>cancelMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>529</x>
-     <y>373</y>
+     <x>669</x>
+     <y>457</y>
     </hint>
     <hint type="destinationlabel">
      <x>2</x>
@@ -747,8 +764,8 @@
    <slot>testMachineConnection()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>219</x>
-     <y>423</y>
+     <x>176</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>2</x>
@@ -760,15 +777,31 @@
    <sender>btnTestSync</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>testSyncAttendance()</slot>
+   <slot>testAttendance()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>234</x>
-     <y>368</y>
+     <x>299</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>1</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnRawSync</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>syncRawAttendance()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>354</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>332</x>
+     <y>571</y>
     </hint>
    </hints>
   </connection>
@@ -786,5 +819,7 @@
   <slot>cancelMachine()</slot>
   <slot>testMachineConnection()</slot>
   <slot>testSyncAttendance()</slot>
+  <slot>testAttendance()</slot>
+  <slot>syncRawAttendance()</slot>
  </slots>
 </ui>
