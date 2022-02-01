@@ -74,6 +74,8 @@ Thumbs.db
 # builds
 builds
 builds/*
+build
+builds/*
 
 # vscode
 .vscode
