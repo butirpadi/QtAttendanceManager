@@ -37,7 +37,8 @@ class Main(QMainWindow):
         self.ui.machineTable.setColumnHidden(3, True)
         self.ui.tbMachineId.hide()
         # self.ui.machineTable.hide()
-        self.ui.btnTestSync.hide()
+        # self.ui.btnTestSync.hide()
+        self.ui.btnTestSync.setEnabled(True)
 
         # open setting
         # -----------------------------------------------
@@ -171,8 +172,7 @@ class Main(QMainWindow):
                 self.ui.machineTable.setItem(rowidx, 2, QtWidgets.QTableWidgetItem(str(machine[3])))
                 self.ui.machineTable.setItem(rowidx, 3, QtWidgets.QTableWidgetItem(str(machine[0])))
 
-                rowidx += 1
-        
+                rowidx += 1       
         
 
     def _testMachineConnection(self):
@@ -298,6 +298,7 @@ class Main(QMainWindow):
         cur.close()
 
         self.loadDataToTable(conn)
+        self.loadTableView()
 
         conn.close()
         self.toggleMachineInput(False)
@@ -314,6 +315,7 @@ class Main(QMainWindow):
         cur.close()
 
         self.loadDataToTable(conn)
+        self.loadTableView()
         
         # reload table view
         self.loadTableView()
@@ -337,8 +339,11 @@ class Main(QMainWindow):
         self.formMode = 'normal'
 
     def getAttendances(self):
-        ip_addr = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 1).text()
-        port = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 2).text()
+        # ip_addr = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 1).text()
+        # port = self.ui.machineTable.item(self.ui.machineTable.currentRow(), 2).text()
+        
+        ip_addr = self.ui.tbMachineAddress.text()
+        port = self.ui.tbMachinePort.text()
 
         zk = MyZK(ip_addr, port=int(port))
 
@@ -354,7 +359,8 @@ class Main(QMainWindow):
             #     pprint(attendances)
             # else :
             #     print('Empty attendance')
-
+            
+            print('get attendance in json')
             att_json = conn.get_attendance_json()
             # if att_json:
             #     pprint(att_json)
@@ -400,45 +406,49 @@ class Main(QMainWindow):
                 print('Session id : ' + session_id)
                 if session_id:
                     atts = {}
+                    print('Get Data Attendance')
                     atts = self.getAttendances()
+                    # pprint(atts)
+                    
 
-                    postjson = {
-                        "jsonrpc": "2.0",
-                        "method": "call",
-                        "params": {
-                            "attendance": json.dumps(atts, default=str)
-                        },
-                        "id": None
-                    }
-
-                    print('-----------------------------')
-                    # pprint(postjson)
-
-                    headers = {
-                        'content-type': "application/json",
-                        'Cookie': "session_id="+session_id+";"
-                    }
-
-                    print('Posting json data to server ......')
+                    print('Posting Attendance to Server')
                     # postjson = {
                     #     "jsonrpc": "2.0",
                     #     "method": "call",
                     #     "params": {
-                    #         "attendance": []
+                    #         "attendance": json.dumps(atts, default=str)
                     #     },
                     #     "id": None
                     # }
-                    # pprint(postjson)
-                    print('Jumlah attendance : ' + str(len(atts)))
 
-                    if israw:
-                        res = requests.post(self.ui.tbServer.text() + '/sync/raw/attendance', headers=headers, json=postjson)
-                    else:
-                        res = requests.post(self.ui.tbServer.text() + '/sync/attendance', headers=headers, json=postjson)
+                    # print('-----------------------------')
+                    # # pprint(postjson)
+
+                    # headers = {
+                    #     'content-type': "application/json",
+                    #     'Cookie': "session_id="+session_id+";"
+                    # }
+
+                    # print('Posting json data to server ......')
+                    # # postjson = {
+                    # #     "jsonrpc": "2.0",
+                    # #     "method": "call",
+                    # #     "params": {
+                    # #         "attendance": []
+                    # #     },
+                    # #     "id": None
+                    # # }
+                    # # pprint(postjson)
+                    # print('Jumlah attendance : ' + str(len(atts)))
+
+                    # # if israw:
+                    # #     res = requests.post(self.ui.tbServer.text() + '/sync/raw/attendance', headers=headers, json=postjson)
+                    # # else:
+                    # #     res = requests.post(self.ui.tbServer.text() + '/sync/attendance', headers=headers, json=postjson)
 
                     is_success = True
 
-                    return res
+                    # return res
 
             except Exception as e:
                 QMessageBox.warning(self, "Connection failed", str(e), QMessageBox.Ok)
@@ -451,7 +461,7 @@ class Main(QMainWindow):
             QMessageBox.warning(self, "Warning", "Select machine first.", QMessageBox.Ok)
 
         self.setFormMode('normal')
-        self.thread[1].stop()
+        # self.thread[1].stop()
 
     def machineSelected(self):
         print('Selected Items : ')

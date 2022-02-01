@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(562, 488)
+        MainWindow.resize(590, 539)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -106,11 +106,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QHBoxLayout(self.frame_6)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.horizontalLayout_5.setContentsMargins(0, 4, 0, 4)
-        self.btnTestSync = QPushButton(self.frame_6)
-        self.btnTestSync.setObjectName(u"btnTestSync")
-
-        self.horizontalLayout_5.addWidget(self.btnTestSync)
-
 
         self.gridLayout_2.addWidget(self.frame_6, 3, 2, 1, 1)
 
@@ -160,6 +155,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3 = QHBoxLayout(self.frame_4)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.btnTestSync = QPushButton(self.frame_4)
+        self.btnTestSync.setObjectName(u"btnTestSync")
+        self.btnTestSync.setEnabled(True)
+        self.btnTestSync.setMinimumSize(QSize(0, 30))
+
+        self.horizontalLayout_3.addWidget(self.btnTestSync)
+
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
@@ -354,10 +356,10 @@ class Ui_MainWindow(object):
         self.gbMachineSetting.setTitle(QCoreApplication.translate("MainWindow", u"Machine Setting", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Address", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Name", None))
-        self.btnTestSync.setText(QCoreApplication.translate("MainWindow", u"Test Sync", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Port", None))
         self.btnMachineSave.setText(QCoreApplication.translate("MainWindow", u"SAVE", None))
         self.btnMachineCancel.setText(QCoreApplication.translate("MainWindow", u"CANCEL", None))
+        self.btnTestSync.setText(QCoreApplication.translate("MainWindow", u"Test Sync", None))
         self.btnTestMachine.setText(QCoreApplication.translate("MainWindow", u"TEST CONNECTION", None))
         self.btnSync.setText(QCoreApplication.translate("MainWindow", u"SYNC", None))
         self.btnNew.setText(QCoreApplication.translate("MainWindow", u"NEW", None))
