@@ -18,7 +18,7 @@ from PySide6.QtWidgets import QApplication, QHeaderView,  QMainWindow, QMessageB
 from PySide6.QtCore import QCoreApplication, QFile, QSize
 from OdooConnection import OdooConnection
 from ThreadClass import ThreadClass
-from Ui_MainWindow import Ui_MainWindow
+from Ui_FormUtama import Ui_FormUtama
 from pprint import pprint
 from zk import ZK, const
 from myzk import MyZK
@@ -28,19 +28,12 @@ class Main(QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
         # self.load_ui()
-        self.ui = Ui_MainWindow()
+        self.ui = Ui_FormUtama()
         self.ui.setupUi(self)
         self.database_name = "my.sqlite"
         # self.ui.tbMachineName.setEnabled(True)
 
         self.thread = {}
-
-        # hide table column
-        self.ui.machineTable.setColumnHidden(3, True)
-        self.ui.tbMachineId.hide()
-        # self.ui.machineTable.hide()
-        # self.ui.btnTestSync.hide()
-        # self.ui.btnTestSync.setEnabled(True)
 
         # open setting
         # -----------------------------------------------
@@ -113,7 +106,13 @@ class Main(QMainWindow):
         self.ui.tableView.clicked.connect(self._tableViewClicked)
         # self.ui.tableView.selectionModel().Current.connect(self._tableViewClicked)
 
+        # hide element object
+        self.ui.machineTable.setColumnHidden(3, True)
+        self.ui.tbMachineId.hide()
+        self.ui.btnTestSync.hide()
+        # self.ui.btnTestSync.setEnabled(True)
         self.ui.machineTable.hide()
+        
 
     def loadTableView(self):
         # query table view

@@ -15,33 +15,32 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QGridLayout, QLineEdit,
-    QPlainTextEdit, QPushButton, QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QDialog, QGridLayout, QLabel,
+    QPushButton, QSizePolicy, QWidget)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(400, 300)
+        Dialog.resize(451, 322)
         self.gridLayout = QGridLayout(Dialog)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.input = QLineEdit(Dialog)
-        self.input.setObjectName(u"input")
+        self.loadFromFileButton = QPushButton(Dialog)
+        self.loadFromFileButton.setObjectName(u"loadFromFileButton")
 
-        self.gridLayout.addWidget(self.input, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.loadFromFileButton, 0, 0, 1, 1)
 
-        self.send = QPushButton(Dialog)
-        self.send.setObjectName(u"send")
+        self.label = QLabel(Dialog)
+        self.label.setObjectName(u"label")
+        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setWordWrap(True)
 
-        self.gridLayout.addWidget(self.send, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.label, 1, 0, 1, 1)
 
-        self.output = QPlainTextEdit(Dialog)
-        self.output.setObjectName(u"output")
-        self.output.setReadOnly(True)
-        self.output.setPlainText(u"Initializing WebChannel...")
-        self.output.setBackgroundVisible(False)
+        self.loadFromSharedMemoryButton = QPushButton(Dialog)
+        self.loadFromSharedMemoryButton.setObjectName(u"loadFromSharedMemoryButton")
 
-        self.gridLayout.addWidget(self.output, 0, 0, 1, 2)
+        self.gridLayout.addWidget(self.loadFromSharedMemoryButton, 2, 0, 1, 1)
 
 
         self.retranslateUi(Dialog)
@@ -51,7 +50,8 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
-        self.input.setPlaceholderText(QCoreApplication.translate("Dialog", u"Message Contents", None))
-        self.send.setText(QCoreApplication.translate("Dialog", u"Send", None))
+        self.loadFromFileButton.setText(QCoreApplication.translate("Dialog", u"Load Image From File...", None))
+        self.label.setText(QCoreApplication.translate("Dialog", u"Launch two of these dialogs.  In the first, press the top button and load an image from a file.  In the second, press the bottom button and display the loaded image from shared memory.", None))
+        self.loadFromSharedMemoryButton.setText(QCoreApplication.translate("Dialog", u"Display Image From Shared Memory", None))
     # retranslateUi
 

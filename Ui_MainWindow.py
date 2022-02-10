@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindow.ui'
+## Form generated from reading UI file 'mainwindow.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.2
 ##
@@ -11,382 +11,105 @@
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QGridLayout,
-    QGroupBox, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
-    QSpacerItem, QTabWidget, QTableView, QTableWidget,
-    QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
+    QCursor, QFont, QFontDatabase, QGradient,
+    QIcon, QImage, QKeySequence, QLinearGradient,
+    QPainter, QPalette, QPixmap, QRadialGradient,
+    QTransform)
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QMainWindow, QMenu,
+    QMenuBar, QPlainTextEdit, QSizePolicy, QSplitter,
+    QStatusBar, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(643, 574)
-        MainWindow.setStyleSheet(u"QPushButton {\n"
-"padding:10px;\n"
-"height:10px;\n"
-"min-width:50px;\n"
-"}")
+        MainWindow.resize(800, 600)
+        self.actionOpen = QAction(MainWindow)
+        self.actionOpen.setObjectName(u"actionOpen")
+        self.actionSave = QAction(MainWindow)
+        self.actionSave.setObjectName(u"actionSave")
+        self.actionExit = QAction(MainWindow)
+        self.actionExit.setObjectName(u"actionExit")
+        self.actionSaveAs = QAction(MainWindow)
+        self.actionSaveAs.setObjectName(u"actionSaveAs")
+        self.actionNew = QAction(MainWindow)
+        self.actionNew.setObjectName(u"actionNew")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayout = QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(5, 5, 5, 5)
-        self.tabWidget = QTabWidget(self.centralwidget)
-        self.tabWidget.setObjectName(u"tabWidget")
-        self.tabMachine = QWidget()
-        self.tabMachine.setObjectName(u"tabMachine")
-        self.verticalLayout_3 = QVBoxLayout(self.tabMachine)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.machineTable = QTableWidget(self.tabMachine)
-        if (self.machineTable.columnCount() < 5):
-            self.machineTable.setColumnCount(5)
-        __qtablewidgetitem = QTableWidgetItem()
-        __qtablewidgetitem.setText(u"Name");
-        self.machineTable.setHorizontalHeaderItem(0, __qtablewidgetitem)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        __qtablewidgetitem1.setText(u"Address");
-        self.machineTable.setHorizontalHeaderItem(1, __qtablewidgetitem1)
-        __qtablewidgetitem2 = QTableWidgetItem()
-        __qtablewidgetitem2.setText(u"Port");
-        self.machineTable.setHorizontalHeaderItem(2, __qtablewidgetitem2)
-        __qtablewidgetitem3 = QTableWidgetItem()
-        __qtablewidgetitem3.setText(u"id");
-        self.machineTable.setHorizontalHeaderItem(3, __qtablewidgetitem3)
-        __qtablewidgetitem4 = QTableWidgetItem()
-        self.machineTable.setHorizontalHeaderItem(4, __qtablewidgetitem4)
-        self.machineTable.setObjectName(u"machineTable")
-        self.machineTable.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.machineTable.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.machineTable.horizontalHeader().setProperty("showSortIndicator", False)
-        self.machineTable.horizontalHeader().setStretchLastSection(True)
-
-        self.verticalLayout_3.addWidget(self.machineTable)
-
-        self.tableView = QTableView(self.tabMachine)
-        self.tableView.setObjectName(u"tableView")
-        self.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
-
-        self.verticalLayout_3.addWidget(self.tableView)
-
-        self.gbMachineSetting = QGroupBox(self.tabMachine)
-        self.gbMachineSetting.setObjectName(u"gbMachineSetting")
-        self.gbMachineSetting.setEnabled(False)
-        self.gridLayout_2 = QGridLayout(self.gbMachineSetting)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.tbMachineName = QLineEdit(self.gbMachineSetting)
-        self.tbMachineName.setObjectName(u"tbMachineName")
-        self.tbMachineName.setEnabled(False)
-
-        self.gridLayout_2.addWidget(self.tbMachineName, 0, 2, 1, 2)
-
-        self.tbMachinePort = QLineEdit(self.gbMachineSetting)
-        self.tbMachinePort.setObjectName(u"tbMachinePort")
-
-        self.gridLayout_2.addWidget(self.tbMachinePort, 2, 2, 1, 1)
-
-        self.tbMachineId = QLineEdit(self.gbMachineSetting)
-        self.tbMachineId.setObjectName(u"tbMachineId")
-
-        self.gridLayout_2.addWidget(self.tbMachineId, 2, 3, 1, 1)
-
-        self.label_6 = QLabel(self.gbMachineSetting)
-        self.label_6.setObjectName(u"label_6")
-
-        self.gridLayout_2.addWidget(self.label_6, 1, 0, 1, 1)
-
-        self.label_5 = QLabel(self.gbMachineSetting)
-        self.label_5.setObjectName(u"label_5")
-
-        self.gridLayout_2.addWidget(self.label_5, 0, 0, 1, 1)
-
-        self.frame_6 = QFrame(self.gbMachineSetting)
-        self.frame_6.setObjectName(u"frame_6")
-        self.frame_6.setFrameShape(QFrame.NoFrame)
-        self.frame_6.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_5 = QHBoxLayout(self.frame_6)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(0, 4, 0, 4)
-
-        self.gridLayout_2.addWidget(self.frame_6, 3, 2, 1, 1)
-
-        self.label_7 = QLabel(self.gbMachineSetting)
-        self.label_7.setObjectName(u"label_7")
-
-        self.gridLayout_2.addWidget(self.label_7, 2, 0, 1, 1)
-
-        self.tbMachineAddress = QLineEdit(self.gbMachineSetting)
-        self.tbMachineAddress.setObjectName(u"tbMachineAddress")
-
-        self.gridLayout_2.addWidget(self.tbMachineAddress, 1, 2, 1, 2)
-
-        self.frame_7 = QFrame(self.gbMachineSetting)
-        self.frame_7.setObjectName(u"frame_7")
-        self.frame_7.setFrameShape(QFrame.NoFrame)
-        self.frame_7.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_6 = QHBoxLayout(self.frame_7)
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.horizontalLayout_6.setContentsMargins(4, 4, 4, 4)
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_6.addItem(self.horizontalSpacer_4)
-
-        self.btnMachineSave = QPushButton(self.frame_7)
-        self.btnMachineSave.setObjectName(u"btnMachineSave")
-        self.btnMachineSave.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_6.addWidget(self.btnMachineSave)
-
-        self.btnMachineCancel = QPushButton(self.frame_7)
-        self.btnMachineCancel.setObjectName(u"btnMachineCancel")
-        self.btnMachineCancel.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_6.addWidget(self.btnMachineCancel)
-
-
-        self.gridLayout_2.addWidget(self.frame_7, 3, 3, 1, 1)
-
-
-        self.verticalLayout_3.addWidget(self.gbMachineSetting)
-
-        self.frame_4 = QFrame(self.tabMachine)
-        self.frame_4.setObjectName(u"frame_4")
-        self.frame_4.setFrameShape(QFrame.NoFrame)
-        self.frame_4.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_3 = QHBoxLayout(self.frame_4)
-        self.horizontalLayout_3.setSpacing(4)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.btnTestMachine = QPushButton(self.frame_4)
-        self.btnTestMachine.setObjectName(u"btnTestMachine")
-        self.btnTestMachine.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_3.addWidget(self.btnTestMachine)
-
-        self.btnTestSync = QPushButton(self.frame_4)
-        self.btnTestSync.setObjectName(u"btnTestSync")
-        self.btnTestSync.setEnabled(True)
-        self.btnTestSync.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_3.addWidget(self.btnTestSync)
-
-        self.btnRawSync = QPushButton(self.frame_4)
-        self.btnRawSync.setObjectName(u"btnRawSync")
-
-        self.horizontalLayout_3.addWidget(self.btnRawSync)
-
-        self.btnSync = QPushButton(self.frame_4)
-        self.btnSync.setObjectName(u"btnSync")
-        self.btnSync.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_3.addWidget(self.btnSync)
-
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
-
-        self.btnNew = QPushButton(self.frame_4)
-        self.btnNew.setObjectName(u"btnNew")
-        self.btnNew.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_3.addWidget(self.btnNew)
-
-        self.btnEdit = QPushButton(self.frame_4)
-        self.btnEdit.setObjectName(u"btnEdit")
-        self.btnEdit.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_3.addWidget(self.btnEdit)
-
-        self.btnDelete = QPushButton(self.frame_4)
-        self.btnDelete.setObjectName(u"btnDelete")
-        self.btnDelete.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_3.addWidget(self.btnDelete)
-
-
-        self.verticalLayout_3.addWidget(self.frame_4)
-
-        self.tabWidget.addTab(self.tabMachine, "")
-        self.tabSetting = QWidget()
-        self.tabSetting.setObjectName(u"tabSetting")
-        self.verticalLayout_2 = QVBoxLayout(self.tabSetting)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.frame = QFrame(self.tabSetting)
-        self.frame.setObjectName(u"frame")
-        self.frame.setFrameShape(QFrame.NoFrame)
-        self.frame.setFrameShadow(QFrame.Raised)
-        self.gridLayout = QGridLayout(self.frame)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(5, 5, 5, 5)
-        self.label_2 = QLabel(self.frame)
-        self.label_2.setObjectName(u"label_2")
-
-        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
-
-        self.tbDatabase = QLineEdit(self.frame)
-        self.tbDatabase.setObjectName(u"tbDatabase")
-
-        self.gridLayout.addWidget(self.tbDatabase, 1, 2, 1, 1)
-
-        self.tbPassword = QLineEdit(self.frame)
-        self.tbPassword.setObjectName(u"tbPassword")
-        self.tbPassword.setEchoMode(QLineEdit.Password)
-
-        self.gridLayout.addWidget(self.tbPassword, 3, 2, 1, 1)
-
-        self.label = QLabel(self.frame)
-        self.label.setObjectName(u"label")
-
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 2)
-
-        self.label_4 = QLabel(self.frame)
-        self.label_4.setObjectName(u"label_4")
-
-        self.gridLayout.addWidget(self.label_4, 1, 0, 1, 1)
-
-        self.tbUsername = QLineEdit(self.frame)
-        self.tbUsername.setObjectName(u"tbUsername")
-
-        self.gridLayout.addWidget(self.tbUsername, 2, 2, 1, 1)
-
-        self.tbServer = QLineEdit(self.frame)
-        self.tbServer.setObjectName(u"tbServer")
-
-        self.gridLayout.addWidget(self.tbServer, 0, 2, 1, 1)
-
-        self.label_3 = QLabel(self.frame)
-        self.label_3.setObjectName(u"label_3")
-
-        self.gridLayout.addWidget(self.label_3, 3, 0, 1, 1)
-
-
-        self.verticalLayout_2.addWidget(self.frame)
-
-        self.frame_2 = QFrame(self.tabSetting)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setMinimumSize(QSize(0, 40))
-        self.frame_2.setFrameShape(QFrame.NoFrame)
-        self.frame_2.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout = QHBoxLayout(self.frame_2)
+        self.horizontalLayout = QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(5, 5, 5, 5)
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.splitter = QSplitter(self.centralwidget)
+        self.splitter.setObjectName(u"splitter")
+        self.splitter.setOrientation(Qt.Horizontal)
+        self.editor = QPlainTextEdit(self.splitter)
+        self.editor.setObjectName(u"editor")
+        self.splitter.addWidget(self.editor)
+        self.preview = QWebEngineView(self.splitter)
+        self.preview.setObjectName(u"preview")
+        self.splitter.addWidget(self.preview)
 
-        self.horizontalLayout.addItem(self.horizontalSpacer)
-
-        self.btnTest = QPushButton(self.frame_2)
-        self.btnTest.setObjectName(u"btnTest")
-        self.btnTest.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout.addWidget(self.btnTest)
-
-        self.btnSave = QPushButton(self.frame_2)
-        self.btnSave.setObjectName(u"btnSave")
-        self.btnSave.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout.addWidget(self.btnSave)
-
-
-        self.verticalLayout_2.addWidget(self.frame_2)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_2.addItem(self.verticalSpacer)
-
-        self.tabWidget.addTab(self.tabSetting, "")
-
-        self.verticalLayout.addWidget(self.tabWidget)
-
-        self.frame_3 = QFrame(self.centralwidget)
-        self.frame_3.setObjectName(u"frame_3")
-        self.frame_3.setFrameShape(QFrame.NoFrame)
-        self.frame_3.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_2 = QHBoxLayout(self.frame_3)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(5, 5, 5, 5)
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
-
-        self.btnClose = QPushButton(self.frame_3)
-        self.btnClose.setObjectName(u"btnClose")
-        self.btnClose.setMinimumSize(QSize(72, 30))
-
-        self.horizontalLayout_2.addWidget(self.btnClose)
-
-
-        self.verticalLayout.addWidget(self.frame_3)
+        self.horizontalLayout.addWidget(self.splitter)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        QWidget.setTabOrder(self.tbMachineName, self.tbMachineAddress)
-        QWidget.setTabOrder(self.tbMachineAddress, self.tbMachinePort)
-        QWidget.setTabOrder(self.tbMachinePort, self.btnNew)
-        QWidget.setTabOrder(self.btnNew, self.btnEdit)
-        QWidget.setTabOrder(self.btnEdit, self.btnDelete)
-        QWidget.setTabOrder(self.btnDelete, self.btnTestMachine)
-        QWidget.setTabOrder(self.btnTestMachine, self.btnSync)
-        QWidget.setTabOrder(self.btnSync, self.tbMachineId)
-        QWidget.setTabOrder(self.tbMachineId, self.btnMachineSave)
-        QWidget.setTabOrder(self.btnMachineSave, self.btnMachineCancel)
-        QWidget.setTabOrder(self.btnMachineCancel, self.machineTable)
-        QWidget.setTabOrder(self.machineTable, self.tabWidget)
-        QWidget.setTabOrder(self.tabWidget, self.tbServer)
-        QWidget.setTabOrder(self.tbServer, self.tbDatabase)
-        QWidget.setTabOrder(self.tbDatabase, self.tbUsername)
-        QWidget.setTabOrder(self.tbUsername, self.tbPassword)
-        QWidget.setTabOrder(self.tbPassword, self.btnTest)
-        QWidget.setTabOrder(self.btnTest, self.btnSave)
-        QWidget.setTabOrder(self.btnSave, self.btnClose)
+        self.menubar = QMenuBar(MainWindow)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 800, 26))
+        self.menu_File = QMenu(self.menubar)
+        self.menu_File.setObjectName(u"menu_File")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar.setObjectName(u"statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.menubar.addAction(self.menu_File.menuAction())
+        self.menu_File.addAction(self.actionNew)
+        self.menu_File.addAction(self.actionOpen)
+        self.menu_File.addAction(self.actionSave)
+        self.menu_File.addAction(self.actionSaveAs)
+        self.menu_File.addSeparator()
+        self.menu_File.addAction(self.actionExit)
 
         self.retranslateUi(MainWindow)
-        self.btnClose.clicked.connect(MainWindow.closeWindow)
-        self.btnSave.clicked.connect(MainWindow.updateSetting)
-        self.btnTest.clicked.connect(MainWindow.testConnection)
-        self.machineTable.itemSelectionChanged.connect(MainWindow.machineSelected)
-        self.btnEdit.clicked.connect(MainWindow.editMachine)
-        self.btnNew.clicked.connect(MainWindow.newMachine)
-        self.btnDelete.clicked.connect(MainWindow.deleteMachine)
-        self.btnSync.clicked.connect(MainWindow.syncAttendance)
-        self.btnMachineSave.clicked.connect(MainWindow.saveMachine)
-        self.btnMachineCancel.clicked.connect(MainWindow.cancelMachine)
-        self.btnTestMachine.clicked.connect(MainWindow.testMachineConnection)
-        self.btnTestSync.clicked.connect(MainWindow.testAttendance)
-        self.btnRawSync.clicked.connect(MainWindow.syncRawAttendance)
-
-        self.tabWidget.setCurrentIndex(0)
-
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Odoo Attendance Manager", None))
-        self.gbMachineSetting.setTitle(QCoreApplication.translate("MainWindow", u"Machine Setting", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Address", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Name", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Port", None))
-        self.btnMachineSave.setText(QCoreApplication.translate("MainWindow", u"SAVE", None))
-        self.btnMachineCancel.setText(QCoreApplication.translate("MainWindow", u"CANCEL", None))
-        self.btnTestMachine.setText(QCoreApplication.translate("MainWindow", u"TEST CONNECTION", None))
-        self.btnTestSync.setText(QCoreApplication.translate("MainWindow", u"TEST ATTENDANCE", None))
-        self.btnRawSync.setText(QCoreApplication.translate("MainWindow", u"RAW SYNC", None))
-        self.btnSync.setText(QCoreApplication.translate("MainWindow", u"SYNC", None))
-        self.btnNew.setText(QCoreApplication.translate("MainWindow", u"NEW", None))
-        self.btnEdit.setText(QCoreApplication.translate("MainWindow", u"EDIT", None))
-        self.btnDelete.setText(QCoreApplication.translate("MainWindow", u"DELETE", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabMachine), QCoreApplication.translate("MainWindow", u"Machine", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Username", None))
-        self.tbPassword.setInputMask("")
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Server Address", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Database", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Password", None))
-        self.btnTest.setText(QCoreApplication.translate("MainWindow", u"TEST", None))
-        self.btnSave.setText(QCoreApplication.translate("MainWindow", u"SAVE", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSetting), QCoreApplication.translate("MainWindow", u"Setting", None))
-        self.btnClose.setText(QCoreApplication.translate("MainWindow", u"CLOSE", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MarkDown Editor", None))
+        self.actionOpen.setText(QCoreApplication.translate("MainWindow", u"&Open...", None))
+#if QT_CONFIG(tooltip)
+        self.actionOpen.setToolTip(QCoreApplication.translate("MainWindow", u"Open document", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        self.actionOpen.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+O", None))
+#endif // QT_CONFIG(shortcut)
+        self.actionSave.setText(QCoreApplication.translate("MainWindow", u"&Save", None))
+#if QT_CONFIG(tooltip)
+        self.actionSave.setToolTip(QCoreApplication.translate("MainWindow", u"Save current document", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        self.actionSave.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+S", None))
+#endif // QT_CONFIG(shortcut)
+        self.actionExit.setText(QCoreApplication.translate("MainWindow", u"E&xit", None))
+#if QT_CONFIG(tooltip)
+        self.actionExit.setToolTip(QCoreApplication.translate("MainWindow", u"Exit editor", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        self.actionExit.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Q", None))
+#endif // QT_CONFIG(shortcut)
+        self.actionSaveAs.setText(QCoreApplication.translate("MainWindow", u"Save &As...", None))
+#if QT_CONFIG(tooltip)
+        self.actionSaveAs.setToolTip(QCoreApplication.translate("MainWindow", u"Save document under different name", None))
+#endif // QT_CONFIG(tooltip)
+        self.actionNew.setText(QCoreApplication.translate("MainWindow", u"&New", None))
+#if QT_CONFIG(tooltip)
+        self.actionNew.setToolTip(QCoreApplication.translate("MainWindow", u"Create new document", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        self.actionNew.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+N", None))
+#endif // QT_CONFIG(shortcut)
+        self.menu_File.setTitle(QCoreApplication.translate("MainWindow", u"&File", None))
     # retranslateUi
 
